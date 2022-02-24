@@ -1,6 +1,6 @@
 # API Contract Testing
 
-[![Unit Tests](https://github.com/Bandwidth/api-contract-testing/actions/workflows/ci.yml/badge.svg)](https://github.com/Bandwidth/api-contract-testing/actions/workflows/ci.yml)
+[![Unit Tests](https://github.com/Bandwidth/pyapi/actions/workflows/ci.yml/badge.svg)](https://github.com/Bandwidth/pyapi/actions/workflows/ci.yml)
 
 ## Documentation
 
