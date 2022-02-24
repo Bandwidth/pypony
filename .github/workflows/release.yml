@@ -1,0 +1,21 @@
+name: Release to PyPI
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  release:
+    name: Deploy to PyPI
+    if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Deploy to PYPI
+      uses: ./.github/actions/deploy
+      env:
+        PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
