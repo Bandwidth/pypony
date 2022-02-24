@@ -1,0 +1,27 @@
+name: Unit Tests
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements.dev.txt
+      - name: Tests with coverage
+        run: |
+          coverage run --branch -m pytest -vv
+          coverage report -m

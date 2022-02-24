@@ -1,0 +1,9 @@
+coverage_threshold: 0.0
+base_url: http://127.0.0.1:8000
+paths:
+  /covered_path: {}
+  # coverage includes an uncovered path
+  /undocumented_path: {}
+  /nested/path: {}
+  /doubly/nested/path: {}
+  /path/{with}/braces: {}

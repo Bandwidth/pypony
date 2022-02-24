@@ -1,0 +1,7 @@
+[run]
+source=
+    api_validator
+omit=
+    venv/*
+    */__init__.py
+    */__main__.py

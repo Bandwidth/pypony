@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>api_validator.models package &mdash; Automated API Validation 11/1/2021 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="api_validator package" href="api_validator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Automated API Validation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">api_validator</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api_validator.html">api_validator package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="api_validator.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">api_validator.models package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api_validator.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api_validator.html#module-api_validator.action">api_validator.action module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api_validator.html#module-api_validator.errors">api_validator.errors module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api_validator.html#module-api_validator.parsing">api_validator.parsing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api_validator.html#module-api_validator.preprocessing">api_validator.preprocessing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api_validator.html#module-api_validator">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Automated API Validation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">api_validator</a> &raquo;</li>
+          <li><a href="api_validator.html">api_validator package</a> &raquo;</li>
+      <li>api_validator.models package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_modules/api_validator.models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-validator-models-package">
+<h1>api_validator.models package<a class="headerlink" href="#api-validator-models-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-api_validator.models.context">
+<span id="api-validator-models-context-module"></span><h2>api_validator.models.context module<a class="headerlink" href="#module-api_validator.models.context" title="Permalink to this headline"></a></h2>
+<p>context.py</p>
+<p>Context manages all variables used during validation,
+like system environment variables and responses of previous steps.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api_validator.models.context.Context">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.context.</span></span><span class="sig-name descname"><span class="pre">Context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.context.Context" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The global context object will be used as a singleton across the entire system.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api_validator.models.context.Context.add_steps">
+<span class="sig-name descname"><span class="pre">add_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.context.Context.add_steps" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a Step object as an attribute of <cite>self.steps</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<a class="reference internal" href="#api_validator.models.step.Step" title="api_validator.models.step.Step"><em>Step</em></a>) – the Step object to add</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api_validator.models.context.Context.clear_steps">
+<span class="sig-name descname"><span class="pre">clear_steps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.context.Context.clear_steps" title="Permalink to this definition"></a></dt>
+<dd><p>Clears all Steps objects from attributes of <cite>self.steps</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api_validator.models.context.Context.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">any</span></span></span><a class="headerlink" href="#api_validator.models.context.Context.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Recursively evaluate nested expressions using depth-first search.
+Eventually the evaluation result as a string is returned.</p>
+<p>The only allowed base contexts are “env” and “steps”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>expression</strong> (<em>str</em>) – Object of any type that may contain expression(s)</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#api_validator.models.errors.EnvironmentVariableError" title="api_validator.models.errors.EnvironmentVariableError"><strong>EnvironmentVariableError</strong></a> – if the expression represents an environment variable but it cannot be found</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The evaluated result as a string if there is any expression, original value otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="api_validator.models.context.Context.steps">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">steps</span></span><a class="headerlink" href="#api_validator.models.context.Context.steps" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-api_validator.models.errors">
+<span id="api-validator-models-errors-module"></span><h2>api_validator.models.errors module<a class="headerlink" href="#module-api_validator.models.errors" title="Permalink to this headline"></a></h2>
+<p>errors.py:</p>
+<p>This module contains custom errors related to the models subpackage.
+These errors mostly include exceptions related to resolving previous step and environment variable references in step files.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="api_validator.models.errors.BaseContextError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.errors.</span></span><span class="sig-name descname"><span class="pre">BaseContextError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.errors.BaseContextError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raises when the base context of an expression is not either “env” or “steps”.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api_validator.models.errors.EnvironmentVariableError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.errors.</span></span><span class="sig-name descname"><span class="pre">EnvironmentVariableError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.errors.EnvironmentVariableError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raises when an environment variable is not found.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api_validator.models.errors.EvaluationError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.errors.</span></span><span class="sig-name descname"><span class="pre">EvaluationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.errors.EvaluationError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raises when the errors occur during expression evaluation.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api_validator.models.errors.InvalidExpressionError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.errors.</span></span><span class="sig-name descname"><span class="pre">InvalidExpressionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.errors.InvalidExpressionError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raises when an expression is invalid.</p>
+</dd></dl>
+
+</section>
+<section id="module-api_validator.models.request">
+<span id="api-validator-models-request-module"></span><h2>api_validator.models.request module<a class="headerlink" href="#module-api_validator.models.request" title="Permalink to this headline"></a></h2>
+<p>request.py</p>
+<p>Request will be sent off to a server to request or query some resource.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api_validator.models.request.Request">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.request.</span></span><span class="sig-name descname"><span class="pre">Request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.request.Request" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Request object includes method, url, params, body, headers, and auth data.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="api_validator.models.request.Request.auth">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">auth</span></span><a class="headerlink" href="#api_validator.models.request.Request.auth" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="api_validator.models.request.Request.body">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">body</span></span><a class="headerlink" href="#api_validator.models.request.Request.body" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api_validator.models.request.Request.evaluate_all">
+<span class="sig-name descname"><span class="pre">evaluate_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#api_validator.models.request.Request.evaluate_all" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates url, params, body, and header in-place.</p>
+<p>Expressions can be either simple or nested:</p>
+<blockquote>
+<div><p>/users/${{ steps.createUser.response.body.id }}
+/users/${{ steps.createUser.response.body.id }}/orders/${{ steps.getOrders.response.body[0].id }}</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="api_validator.models.request.Request.headers">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">headers</span></span><a class="headerlink" href="#api_validator.models.request.Request.headers" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="api_validator.models.request.Request.params">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#api_validator.models.request.Request.params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-api_validator.models.response">
+<span id="api-validator-models-response-module"></span><h2>api_validator.models.response module<a class="headerlink" href="#module-api_validator.models.response" title="Permalink to this headline"></a></h2>
+<p>response.py</p>
+<p>Response is generated once a request gets a response back from the server.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api_validator.models.response.Response">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.response.</span></span><span class="sig-name descname"><span class="pre">Response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_Response__response</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">requests.models.Response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.response.Response" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stores the response sent back to the server.</p>
+</dd></dl>
+
+</section>
+<section id="module-api_validator.models.schema">
+<span id="api-validator-models-schema-module"></span><h2>api_validator.models.schema module<a class="headerlink" href="#module-api_validator.models.schema" title="Permalink to this headline"></a></h2>
+<p>schema.py</p>
+<p>JSON Schema is a vocabulary that allows you to annotate and validate JSON documents.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api_validator.models.schema.Schema">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.schema.</span></span><span class="sig-name descname"><span class="pre">Schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_schema</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'https://json-schema.org/draft/2020-12/schema'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.schema.Schema" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Predefines meta schema and stores JSON schema document model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api_validator.models.schema.Schema.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">jschon.jsonschema.Scope</span></span></span><a class="headerlink" href="#api_validator.models.schema.Schema.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Verify the JSON against the schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>json</strong> (<em>dict</em>) – the JSON document to evaluate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluate a JSON document and return the complete evaluation result tree.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-api_validator.models.singleton">
+<span id="api-validator-models-singleton-module"></span><h2>api_validator.models.singleton module<a class="headerlink" href="#module-api_validator.models.singleton" title="Permalink to this headline"></a></h2>
+<p>singleton.py</p>
+<p>This module is only used by Context to ensure the uniqueness of the global context state.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api_validator.models.singleton.Singleton">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.singleton.</span></span><span class="sig-name descname"><span class="pre">Singleton</span></span><a class="headerlink" href="#api_validator.models.singleton.Singleton" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></p>
+<p>Restricts the instantiation of a class to one single instance.</p>
+</dd></dl>
+
+</section>
+<section id="module-api_validator.models.step">
+<span id="api-validator-models-step-module"></span><h2>api_validator.models.step module<a class="headerlink" href="#module-api_validator.models.step" title="Permalink to this headline"></a></h2>
+<p>step.py:</p>
+<p>Encapsulates step data from the step file, including name, request, response, and schema for easy access.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api_validator.models.step.Step">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">api_validator.models.step.</span></span><span class="sig-name descname"><span class="pre">Step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#api_validator.models.request.Request" title="api_validator.models.request.Request"><span class="pre">api_validator.models.request.Request</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#api_validator.models.response.Response" title="api_validator.models.response.Response"><span class="pre">api_validator.models.response.Response</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#api_validator.models.schema.Schema" title="api_validator.models.schema.Schema"><span class="pre">api_validator.models.schema.Schema</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api_validator.models.step.Step" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Steps object manages request, response, and schema.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api_validator.models.step.Step.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#api_validator.models.step.Step.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api_validator.models.step.Step.request">
+<span class="sig-name descname"><span class="pre">request</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#api_validator.models.request.Request" title="api_validator.models.request.Request"><span class="pre">api_validator.models.request.Request</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#api_validator.models.step.Step.request" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api_validator.models.step.Step.response">
+<span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#api_validator.models.response.Response" title="api_validator.models.response.Response"><span class="pre">api_validator.models.response.Response</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#api_validator.models.step.Step.response" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api_validator.models.step.Step.schema">
+<span class="sig-name descname"><span class="pre">schema</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#api_validator.models.schema.Schema" title="api_validator.models.schema.Schema"><span class="pre">api_validator.models.schema.Schema</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#api_validator.models.step.Step.schema" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api_validator.models.step.Step.verify">
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">jschon.jsonschema.Scope</span></span></span><a class="headerlink" href="#api_validator.models.step.Step.verify" title="Permalink to this definition"></a></dt>
+<dd><p>Verify the response against the schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Evaluate the response body and return the complete evaluation result tree.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-api_validator.models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-api_validator.models" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api_validator.html" class="btn btn-neutral float-left" title="api_validator package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, William Boyles, Manali Shirsekar, Sheldon Yao, Savan Doshi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
