@@ -193,15 +193,3 @@ def test_verbose():
 
     assert "Traceback (most recent call last):" in stdout_verbose
     assert stdout_no_verbose != stdout_verbose
-
-
-def test_bandwidth_messaging():
-    os.environ["BW_USERNAME"] = ""
-    os.environ["BW_PASSWORD"] = ""
-
-    verify_api(
-        os.path.join("test", "fixtures", "specs", "valid", "messaging.json"),
-        os.path.join("test", "fixtures", "steps", "valid", "messaging.yml"),
-        fail_fast=True,
-        verbose=True
-    )
