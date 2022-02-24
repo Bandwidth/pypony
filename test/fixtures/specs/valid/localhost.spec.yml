@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: Testing API server spec
+  description: Spec of testing API server
+  version: 1.0.0
+paths:
+  /:
+    get:
+      description: Get server environment name
+      operationId: getEnv
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/env"
+  /users:
+    post:
+      description: Create a new user
+      operationId: createUser
+      responses:
+        '201':
+          description: Successfully created a new user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+    get:
+      description: Get all users
+      operationId: getUsers
+      responses:
+        '200':
+          description: Successfully get all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/user"
+components:
+  schemas:
+    env:
+      type: object
+      properties:
+        environment:
+          type: string
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          type: string
+        email:
+          type: string
+        phone:
+          type: integer
+        address:
+          $ref: "#/components/schemas/address"
+    address:
+      type: object
+      properties:
+        id:
+          type: integer
+        number:
+          type: integer
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string

@@ -1,0 +1,53 @@
+name: Build Docs and Coverage Report
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_docs_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements.dev.txt
+      
+      - name: Tests with coverage
+        run: |
+          coverage run --branch -m pytest -vv
+     
+      - name: Generate HTML coverage report
+        run: |
+          rm -r ./docs/coverage
+          coverage html -d ./docs/coverage --title="API Validator Test Coverage"
+          rm ./docs/coverage/.gitignore
+      
+      - name: Update coverage badge
+        run: |
+          coverage xml -o ./docs/coverage/coverage.xml
+          genbadge coverage -i ./docs/coverage/coverage.xml -o ./docs/coverage/badge.svg
+          rm ./docs/coverage/coverage.xml
+      
+      - name: Build docs
+        run: |
+          sphinx-apidoc -f --implicit-namespaces -o docs/_modules api_validator
+          cd docs
+          make html
+      
+      - name: Push build to GitHub
+        run: |
+          git config --global user.name "dx-bandwidth"
+          git config --global user.email "dx@bandwidth.com"
+          git add -f ./docs/
+          git commit -m "Build docs and coverage report"
+          git push

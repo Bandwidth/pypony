@@ -1,0 +1,29 @@
+base_url: "https://example.com"
+# no operationId on the get step
+paths:
+  /person:
+    post:
+      operationId: createPerson
+      steps:
+        - name: createPerson
+          method: POST
+          headers:
+            Content-Type: application/json
+          data:
+            name: "John Doe"
+            age: 42
+    get:
+      steps:
+        - name: createPerson
+          method: POST
+          headers:
+            Content-Type: application/json
+          data:
+            name: "John Smith"
+            age: 30
+        - name: getPerson
+          method: "GET"
+          url_parameters:
+            id: "{{ createPerson.response.id }}"
+          headers:
+            Content-Type: application/json

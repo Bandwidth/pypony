@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: Coverage Spec
+  description: |
+    This is a spec that is used to measure steps coverage against it.
+    It purposely does not contain anything inside each path item.
+    It is meant to be used alongside coverage_steps.yml.
+  version: 1.0.0
+paths:
+  /covered_path: {}
+  /uncovered_path: {}
+  # Steps will include an undocumented path
+  /nested/path: {}
+  /doubly/nested/path: {}
+  /path/{with}/braces: {}
+components: {}

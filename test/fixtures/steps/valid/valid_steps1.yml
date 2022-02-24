@@ -1,0 +1,38 @@
+base_url: https://example.com
+paths:
+  /person:
+    post:
+      operationId: createPerson
+      steps:
+        - name: createPerson
+          method: POST
+          url: /person
+          headers:
+            Content-Type: application/json
+          body:
+            name: John Doe
+            age: 42
+          auth:
+            username: some_user
+            password: some_password
+    get:
+      operationId: fetchPersonInfo
+      steps:
+        - name: createPerson
+          method: POST
+          url: /person
+          headers:
+            Content-Type: application/json
+          body:
+            name: John Smith
+            age: 30
+        - name: getPerson
+          method: GET
+          url: /person
+          params:
+            id: ${{ steps.createPerson.response.body.id }}
+          headers:
+            Content-Type: application/json
+          auth:
+            username: some_user
+            password: some_password

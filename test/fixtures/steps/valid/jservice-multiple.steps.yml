@@ -1,0 +1,18 @@
+base_url: https://jservice.io
+paths:
+  /api/clues:
+    get:
+      operationId: getClues
+      steps:
+        - name: getAllClues1
+          method: GET
+          url: /api/clues
+          params:
+            category: 4642
+            value: 500
+        - name: getAllClues2
+          method: GET
+          url: /api/clues
+          params:
+            category: 4642
+            value: 500

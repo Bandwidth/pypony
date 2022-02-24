@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  title: Testing API server spec
+  description: Spec of testing API server
+  version: 1.0.0
+paths:
+  /:
+    get:
+      description: Get server environment name
+      operationId: getEnv
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/env"
+components:
+  schemas:
+    env:
+      type: object
+      properties:
+        environment:
+          type: string
