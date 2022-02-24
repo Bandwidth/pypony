@@ -4,8 +4,8 @@
 
 ## Documentation
 
-- [Source Code Docs](https://special-invention-b32f4801.pages.github.io/)
-- [Coverage Report](https://special-invention-b32f4801.pages.github.io/coverage/)
-- [Design](https://special-invention-b32f4801.pages.github.io/design/)
-- [Developer's Guide](https://special-invention-b32f4801.pages.github.io/guides/developers/)
-- [User's Guide](https://special-invention-b32f4801.pages.github.io/guides/users/)
+- [Source Code Docs](https://fuzzy-journey-0f130eaf.pages.github.io/)
+- [Coverage Report](https://fuzzy-journey-0f130eaf.pages.github.io/coverage/)
+- [Design](https://fuzzy-journey-0f130eaf.pages.github.io/design/)
+- [Developer's Guide](https://fuzzy-journey-0f130eaf.pages.github.io/guides/developers/)
+- [User's Guide](https://fuzzy-journey-0f130eaf.pages.github.io/guides/users/)
