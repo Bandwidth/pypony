@@ -1,0 +1,12 @@
+# action.yml
+name: 'Deploy'
+description: 'Deploys the python sdk to PYPI'
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        pip install twine
+        pip install wheel
+        python setup.py sdist bdist_wheel
+        twine upload dist/* -u $PYPI_USERNAME -p $PYPI_PASSWORD
+      shell: bash 
