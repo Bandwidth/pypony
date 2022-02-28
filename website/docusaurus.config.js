@@ -1,5 +1,4 @@
 // @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
@@ -13,8 +12,8 @@ const config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'Bandwidth', // Usually your GitHub org/user name.
-  projectName: 'pypony', // Usually your repo name.
+  organizationName: 'Bandwidth', 
+  projectName: 'pypony', 
 
   presets: [
     [
@@ -23,7 +22,6 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
           editUrl: 'https://github.com/Bandwidth/pypony/edit/main/website/docs/',
         },
         blog: {
