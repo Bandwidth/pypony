@@ -12,5 +12,5 @@ setup(
     version='0.1.0',
     py_modules=['pypony'],
     install_requires=requirements,
-    packages = find_packages("src", exclude=["website"]),
+    packages = find_packages("src", exclude=["website", "test"]),
 )
