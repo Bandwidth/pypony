@@ -1,0 +1,20 @@
+coverage_threshold: 0.0
+base_url: https://messaging.bandwidth.com/api/v2
+paths:
+  /users/{accountId}/messages:
+    POST:
+      operationId: CreateMessage
+      steps:
+        - name: createMessage
+          method: POST
+          url: /users/9900778/messages
+          headers:
+            Content-Type: application/json
+          body:
+            to: +19196286059
+            from: +19195892106
+            text: contract test
+            applicationId: 8e5097f4-e8e8-416d-ad56-3ca63d97b8fc
+          auth:
+            username: ckoegel-api
+            password: '@piT3$ting@cc0unt!'
