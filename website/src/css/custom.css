@@ -37,3 +37,21 @@
 [data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+.header-github-link:hover {
+  opacity: 0.6;
+}
+
+.header-github-link::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  display: flex;
+  background: url(../../static/img/github-light.svg)
+    no-repeat;
+}
+
+[data-theme='dark'] .header-github-link::before {
+  background: url(../../static/img/github-dark.svg)
+    no-repeat;
+}

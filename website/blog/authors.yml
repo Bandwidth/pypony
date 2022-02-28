@@ -1,17 +1,11 @@
-endi:
-  name: Endilie Yacop Sucipto
-  title: Maintainer of Docusaurus
-  url: https://github.com/endiliey
-  image_url: https://github.com/endiliey.png
+arice:
+  name: AJ Rice
+  title: Maintainer of PyPony
+  url: https://github.com/ajrice6713
+  image_url: https://github.com/ajrice6713.png
 
-yangshun:
-  name: Yangshun Tay
-  title: Front End Engineer @ Facebook
-  url: https://github.com/yangshun
-  image_url: https://github.com/yangshun.png
-
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
+ckoegel:
+  name: Cameron Koegel
+  title: Maintainer of PyPony
+  url: https://github.com/ckoegel
+  image_url: https://github.com/ckoegel.png
