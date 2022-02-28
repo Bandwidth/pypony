@@ -3,8 +3,8 @@ import uuid
 
 import pytest
 
-from api_validator.models import Context, Step, Request
-from api_validator.models.errors import BaseContextError, EnvironmentVariableError
+from src.models import Context, Step, Request
+from src.models.errors import BaseContextError, EnvironmentVariableError
 
 
 @pytest.fixture

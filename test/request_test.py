@@ -1,4 +1,4 @@
-from api_validator.models import Request, Context, Step
+from src.models import Request, Context, Step
 
 context = Context()
 

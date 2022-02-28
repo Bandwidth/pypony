@@ -5,8 +5,8 @@ from contextlib import redirect_stdout
 import prance
 import pytest
 
-from api_validator.action import verify_api
-from api_validator.errors import (
+from src.action import verify_api
+from src.errors import (
     UndocumentedEndpointError,
     InsufficientCoverageError,
     ResponseMatchError,

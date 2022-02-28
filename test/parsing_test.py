@@ -2,7 +2,7 @@
 """
 
 from prance import ValidationError
-from api_validator.parsing import parse_spec, parse_steps
+from src.parsing import parse_spec, parse_steps
 
 from .fixtures import *
 from prance.util.url import ResolutionError

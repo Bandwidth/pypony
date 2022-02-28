@@ -2,8 +2,8 @@
 """
 
 import os
-from api_validator.parsing import parse_spec, parse_steps
-from api_validator.preprocessing import get_endpoint_coverage
+from src.parsing import parse_spec, parse_steps
+from src.preprocessing import get_endpoint_coverage
 
 
 def test_compatible_spec_step():
