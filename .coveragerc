@@ -1,6 +1,6 @@
 [run]
 source=
-    api_validator
+    src
 omit=
     venv/*
     */__init__.py
