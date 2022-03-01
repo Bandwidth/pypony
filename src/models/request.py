@@ -6,7 +6,7 @@ Request will be sent off to a server to request or query some resource.
 
 from addict import Dict
 
-from api_validator.models import Context
+from src.models import Context
 
 context = Context()
 

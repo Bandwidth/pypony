@@ -25,26 +25,26 @@ jobs:
      
       - name: Generate HTML coverage report
         run: |
-          rm -r ./docs/coverage
-          coverage html -d ./docs/coverage --title="API Validator Test Coverage"
-          rm ./docs/coverage/.gitignore
+          rm -r ./website/src/pages/coverage
+          coverage html -d ./website/src/pages/coverage --title="API Validator Test Coverage"
+          rm ./website/src/pages/coverage/.gitignore
       
       - name: Update coverage badge
         run: |
-          coverage xml -o ./docs/coverage/coverage.xml
-          genbadge coverage -i ./docs/coverage/coverage.xml -o ./docs/coverage/badge.svg
-          rm ./docs/coverage/coverage.xml
+          coverage xml -o ./website/src/pages/coverage/coverage.xml
+          genbadge coverage -i ./website/src/pages/coverage/coverage.xml -o ./docs/coverage/badge.svg
+          rm ./website/src/pages/coverage/coverage.xml
       
-      - name: Build docs
-        run: |
-          sphinx-apidoc -f --implicit-namespaces -o docs/_modules api_validator
-          cd docs
-          make html
+      # - name: Build docs
+      #   run: |
+      #     sphinx-apidoc -f --implicit-namespaces -o docs/_modules api_validator
+      #     cd docs
+      #     make html
       
-      - name: Push build to GitHub
-        run: |
-          git config --global user.name "dx-bandwidth"
-          git config --global user.email "dx@bandwidth.com"
-          git add -f ./docs/
-          git commit -m "Build docs and coverage report"
-          git push
+      # - name: Push build to GitHub
+      #   run: |
+      #     git config --global user.name "dx-bandwidth"
+      #     git config --global user.email "dx@bandwidth.com"
+      #     git add -f ./website/
+      #     git commit -m "Build docs and coverage report"
+      #     git push

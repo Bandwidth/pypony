@@ -1,0 +1,29 @@
+name: Test Build Docs
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-build-docs:
+    name: Test build docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+
+      - name: Install dependencies
+        run: |
+          cd website
+          yarn install --frozen-lockfile
+      
+      - name: Test build website
+        run: |
+          cd website
+          yarn build

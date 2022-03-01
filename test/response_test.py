@@ -1,6 +1,6 @@
 import requests
 
-from api_validator.models import Response
+from src.models import Response
 
 
 def test_delegation():

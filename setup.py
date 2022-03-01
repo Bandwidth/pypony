@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("requirements.txt", "r") as fp:
     requirements = fp.readlines()
@@ -12,4 +12,5 @@ setup(
     version='0.1.0',
     py_modules=['pypony'],
     install_requires=requirements,
+    packages = find_packages("src", exclude=["website", "test"]),
 )
