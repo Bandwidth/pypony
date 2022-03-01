@@ -11,10 +11,10 @@ paths:
           headers:
             Content-Type: application/json
           body:
-            to: +19196286059
-            from: +19195892106
+            to:
+            from:
             text: contract test
-            applicationId: 8e5097f4-e8e8-416d-ad56-3ca63d97b8fc
+            applicationId:
           auth:
-            username: ckoegel-api
-            password: '@piT3$ting@cc0unt!'
+            username:
+            password:
