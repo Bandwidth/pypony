@@ -17,3 +17,11 @@ You should see some output listing every unit test and indicating that it passed
 ```sh
 coverage report -m
 ```
+
+## Install CLI Tool From Local Clone
+
+To install the CLI tool from your local clone, run the following in the root directory:
+
+```sh
+python setup.py install
+```
