@@ -14,6 +14,8 @@ const config = {
   favicon: 'img/favicon.ico',
   organizationName: 'Bandwidth', 
   projectName: 'pypony', 
+  trailingSlash: false,
+  deploymentBranch: 'gh-pages',
 
   presets: [
     [
