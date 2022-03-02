@@ -5,7 +5,7 @@
 ## Folder Structure
 
 - `/test`
-  - `action_test.py`
+  - `validate_test.py`
   - `...`
   - `/fixtures` (mock data)
     - `/specs`

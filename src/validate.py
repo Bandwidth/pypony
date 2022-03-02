@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""action.py
+"""validate.py
 
 This module contains the primary code for the GitHub Action.
 Using the parsed OpenAPI specs and step files, it will create API requests and

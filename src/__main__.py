@@ -4,7 +4,7 @@ import traceback
 import click
 from actions_toolkit import core
 
-from .action import verify_api
+from .validate import verify_api
 
 
 @click.command()

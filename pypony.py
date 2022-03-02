@@ -4,7 +4,7 @@ import traceback
 import click
 from actions_toolkit import core
 
-from src.action import verify_api
+from src.validate import verify_api
 
 
 @click.group()

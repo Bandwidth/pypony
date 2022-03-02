@@ -5,7 +5,7 @@ from contextlib import redirect_stdout
 import prance
 import pytest
 
-from src.action import verify_api
+from src.validate import verify_api
 from src.errors import (
     UndocumentedEndpointError,
     InsufficientCoverageError,
