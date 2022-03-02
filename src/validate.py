@@ -10,6 +10,7 @@ import traceback
 
 import requests
 from actions_toolkit import core
+from rich import print, print_json
 from dotenv import load_dotenv
 from jschon import create_catalog
 from jschon.jsonschema import OutputFormat
@@ -104,7 +105,7 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
         ResponseValidationError: If the response does not match the expected response according to schema
     """
 
-    core.info('Validating APIs')
+    print('Validating APIs')
 
     # Create requests
     base_url: str = steps_data["base_url"]
@@ -130,7 +131,7 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
                 try:
                     # Get step name
                     step_name = step_data.pop("name")
-                    core.info(step_name)
+                    print(step_name)
 
                     # Create Request object
                     path_url = step_data.pop("url")
@@ -139,12 +140,13 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
                     # Evaluate expressions
                     request.evaluate_all()
 
-                    core.info('  Request:')
-                    core.info(f'    {request.method} {request.url}')
-                    core.info(f'      Authentication: {request.auth}')
-                    core.info(f'      Body: {request.body}')
-                    core.info(f'      Headers: {request.headers}')
-                    core.info(f'      Parameters: {request.params}')
+                    print('  Request:')
+                    print(f'    {request.method} {request.url}')
+                    print(f'      Authentication: {request.auth}')
+                    print(f'      Body:')
+                    print_json(data=request.body, indent=4)
+                    print(f'      Headers: {request.headers}')
+                    print(f'      Parameters: {request.params}')
 
                     # Create Step object
                     step = Step(step_name, request)
@@ -163,10 +165,10 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
 
                     response = step.response
 
-                    core.info('  Response:')
-                    core.info(f'    HTTP {response.status_code} {response.reason}')
-                    core.info(f'    Body: {response.body}')
-                    core.info('')
+                    print('  Response:')
+                    print(f'    HTTP {response.status_code} {response.reason}')
+                    print_json(data=response.body, indent=4)
+                    print('')
 
                     status_code = step.response.status_code
 
