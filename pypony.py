@@ -11,6 +11,7 @@ from src.validate import verify_api
 def cli():
     pass
 
+
 @cli.command()
 @click.option(
     "--spec_file", required=True, type=click.STRING, envvar="INPUT_SPEC_FILE"
@@ -34,5 +35,6 @@ def main(spec_file, step_file, fail_fast, verbose):
             core.error(str(e), title=e.__class__.__name__)
 
         sys.exit(1)
+
 
 main()
