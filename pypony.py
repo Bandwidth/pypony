@@ -20,10 +20,10 @@ def cli():
     "--step_file", required=True, type=click.STRING, envvar="INPUT_STEP_FILE"
 )
 @click.option(
-    "-ff", "--fail-fast", is_flag=True, envvar="INPUT_FAIL_FAST"
+    "-ff", "--fail-fast", is_flag=True
 )
 @click.option(
-    "-v", "--verbose", is_flag=True, envvar="INPUT_VERBOSE"
+    "-v", "--verbose", is_flag=True
 )
 def main(spec_file, step_file, fail_fast, verbose):
     try:
