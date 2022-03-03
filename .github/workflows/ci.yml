@@ -21,7 +21,5 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements.dev.txt
-      - name: Tests with coverage
-        run: |
-          coverage run --branch -m pytest -vv
-          coverage report -m
+      - name: Test
+        run: pytest

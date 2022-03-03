@@ -1,7 +1,6 @@
 # PyPony
 
-[![Unit Tests](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml/badge.svg)](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml) 
-[![coverage badge](coverage/badge.svg)](https://github.com/Bandwidth/pypony/coverage/)
+[![Unit Tests](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml/badge.svg)](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml)
 
 PyPony is a Python CLI tool for contract testing OpenAPI specifications against the live APIs that they define.  
 

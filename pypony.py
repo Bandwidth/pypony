@@ -4,12 +4,13 @@ import traceback
 import click
 from actions_toolkit import core
 
-from src.action import verify_api
+from src.validate import verify_api
 
 
 @click.group()
 def cli():
     pass
+
 
 @cli.command()
 @click.option(
@@ -19,10 +20,10 @@ def cli():
     "--step_file", required=True, type=click.STRING, envvar="INPUT_STEP_FILE"
 )
 @click.option(
-    "-ff", "--fail-fast", default=False, type=click.BOOL, envvar="INPUT_FAIL_FAST"
+    "-ff", "--fail-fast", is_flag=True
 )
 @click.option(
-    "-v", "--verbose", default=False, type=click.BOOL, envvar="INPUT_VERBOSE"
+    "-v", "--verbose", is_flag=True
 )
 def main(spec_file, step_file, fail_fast, verbose):
     try:
@@ -34,5 +35,6 @@ def main(spec_file, step_file, fail_fast, verbose):
             core.error(str(e), title=e.__class__.__name__)
 
         sys.exit(1)
+
 
 main()
