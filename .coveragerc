@@ -1,7 +1,0 @@
-[run]
-source=
-    src
-omit=
-    venv/*
-    */__init__.py
-    */__main__.py
