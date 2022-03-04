@@ -3,34 +3,32 @@ base_url: https://example.com
 auth:
   username: ${{ env.username }}
   password: ${{ env.password }}
-resources:
-  /person:
-    operations:
-      - name: createPersonSuccessful
-        operationId: createPerson
-        method: POST
-        headers:
-          Content-Type: application/json
-        body:
-          name: John Doe
-          age: 42
-        statusCode: 200
-      - name: getPersonSuccess
-        operationId: getPerson
-        method: GET
-        url: /${{ createPersonSuccessful.response.body.id }}    # Anything in `url` is appended to the top level resource
-        params:
-          details: true
-        statusCode: 200
-      - name: createPersonFailed
-        operationId: createPerson
-        method: POST
-        headers:
-          Content-Type: application/xml
-        body:
-          name: 420-69
-          age: John Doe
-        statusCode: 400
-        auth:    # Override global auth
-          username: ${{ env.username }}
-          password: bad-password
+operations:
+  - name: createPersonSuccessful
+    operationId: createPerson
+    method: POST
+    headers:
+      Content-Type: application/json
+    body:
+      name: John Doe
+      age: 42
+    statusCode: 200
+  - name: getPersonSuccess
+    operationId: getPerson
+    method: GET
+    url: /${{ createPersonSuccessful.response.body.id }}    # Anything in `url` is appended to the top level resource
+    params:
+      details: true
+    statusCode: 200
+  - name: createPersonFailed
+    operationId: createPerson
+    method: POST
+    headers:
+      Content-Type: application/xml
+    body:
+      name: 420-69
+      age: John Doe
+    statusCode: 400
+    auth:    # Override global auth
+      username: ${{ env.username }}
+      password: bad-password

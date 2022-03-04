@@ -1,6 +1,6 @@
 addict==2.4.0
 click==8.0.3
-jschon==0.7.3
+jsonschema==4.4.0
 openapi-spec-validator==0.3.1
 prance==0.21.8.0
 py-openapi-schema-to-json-schema==0.0.3
