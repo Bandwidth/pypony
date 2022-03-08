@@ -5,7 +5,6 @@ This module contains the primary code for the GitHub Action.
 Using the parsed OpenAPI specs and step files, it will create API requests and
 validate the responses.
 """
-import os
 import traceback
 
 import requests
