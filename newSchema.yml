@@ -14,14 +14,14 @@ operations:
       age: 42
     statusCode: 200
   - name: getPersonSuccess
-    operationId: getPerson
+    operation_id: getPerson
     method: GET
     url: /${{ createPersonSuccessful.response.body.id }}    # Anything in `url` is appended to the top level resource
     params:
       details: true
     statusCode: 200
   - name: createPersonFailed
-    operationId: createPerson
+    operation_id: createPerson
     method: POST
     headers:
       Content-Type: application/xml

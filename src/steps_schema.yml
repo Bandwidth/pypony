@@ -38,7 +38,7 @@ additionalProperties: false
       name:
         type: string
         pattern: "\\w+"
-      operationId:
+      operation_id:
         type: string
         pattern: "\\w+"
       method:
@@ -61,7 +61,7 @@ additionalProperties: false
         maximum: 600
     required:
     - name
-    - operationId
+    - operation_id
     - method
     - url
     additionalProperties: false

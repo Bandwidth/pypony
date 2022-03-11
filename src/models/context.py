@@ -2,7 +2,7 @@
 """context.py
 
 Context manages all variables used during validation,
-like system environment variables and responses of previous steps.
+like system environment variables and responses of previous operations.
 """
 
 import os
@@ -18,28 +18,28 @@ class Context(metaclass=Singleton):
     The global context object will be used as a singleton across the entire system.
     """
 
-    _steps = SimpleNamespace()
+    _operations = SimpleNamespace()
 
     @property
-    def steps(self):
-        return self._steps
+    def operations(self):
+        return self._operations
 
-    def add_steps(self, step):
+    def add_operations(self, operation):
         """
-        Adds a Step object as an attribute of `self.steps`
+        Adds a Step object as an attribute of `self.operations`
 
         Args:
-            step (Step): the Step object to add
+            operation (Operation): the Operation object to add
         """
 
-        setattr(self.steps, step.name, step)
+        setattr(self.operations, operation.name, operation)
 
-    def clear_steps(self):
+    def clear_operations(self):
         """
-        Clears all Steps objects from attributes of `self.steps`
+        Clears all Operations objects from attributes of `self.operations`
         """
 
-        self._steps = SimpleNamespace()
+        self._operations = SimpleNamespace()
 
     # noinspection PyMethodMayBeStatic
     def evaluate(self, expression: any) -> any:
@@ -47,7 +47,7 @@ class Context(metaclass=Singleton):
         Recursively evaluate nested expressions using depth-first search.
         Eventually the evaluation result as a string is returned.
 
-        The only allowed base contexts are "env" and "steps".
+        The only allowed base contexts are "env" and "operations".
 
         Args:
             expression (str): Object of any type that may contain expression(s)
@@ -87,7 +87,7 @@ class Context(metaclass=Singleton):
                 result = os.environ.get(value.split(".", 1)[1])
                 if result is None:
                     raise EnvironmentVariableError(value)
-            elif base == "steps":
+            elif base == "operations":
                 try:
                     result = eval("self." + value)
                 except AttributeError as e:
