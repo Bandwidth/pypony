@@ -112,6 +112,13 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
     # Get operations list
     operations: list = steps_data["operations"]
 
+    # Create responses dict for easier parsing
+    operation_responses: dict = {}
+    for path in spec_data['paths']:
+        for method in spec_data['paths'][path]:
+            op_id = spec_data['paths'][path][method]['operationId']
+            operation_responses[op_id] = spec_data['paths'][path][method]['responses']
+
     # Go through each operation
     operation_data: dict
     for operation_data in operations:
@@ -154,44 +161,35 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
 
             print('Response:')
             print(f'HTTP {response.status_code} {response.reason}')
-            print_json(data=response.body, indent=4)
+            print('Body:')
+            if type(response.body) == bytes:
+                print(f'Body size: {len(response.body)} bytes')
+            else:
+                print_json(data=response.body, indent=4)
             print('')
 
             status_code = operation.response.status_code
 
             # Fetch schema
             try:
-                schema = to_json_schema(
-                    spec_data.get("paths")
-                        .get(path_key)
-                        .get(operation_data['method'])
-                        .get("responses")
-                    .get(str(status_code))
-                    .get("content")
-                    .get("application/json")
-                    .get("schema")
-                )
-                step.schema = Schema(schema)
-            except AttributeError:
+                schema = to_json_schema(operation_responses[operation_data['operation_id']][str(operation_data['status_code'])])
+                operation.schema = Schema(schema)
+            except (AttributeError, KeyError):
                 raise ResponseMatchError(
-                    spec_data.get("paths")
-                    .get(path_key)
-                    .get(method_name)
-                    .get("responses")
-                    .keys(),
-                    step.response,
+                    operation_responses[operation_data['operation_id']].keys(),
+                    operation.response,
                 )
 
             # Save the step to further use
-            context.add_steps(step)
+            context.add_operations(operation)
 
             # Verify the response
-            verification_result = step.verify()
+            verification_result = operation.verify()
             if not verification_result.valid:
                 raise ResponseValidationError(
                     errors=verification_result.output(OutputFormat.BASIC)["errors"],
                     url=path_url,
-                    method=method_name,
+                    method=operation_data['method'],
                     status_code=status_code,
                 )
 

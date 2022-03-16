@@ -18,15 +18,18 @@ class Request:
     def __init__(
         self,
         operation_id: str,
+        status_code: int,
         method: str,
         url: str,
         params: dict = None,
         body: dict = None,
         headers: dict = None,
         auth: dict = None,
-        global_auth: dict = None,
+        global_auth: dict = None
+
     ):
         self.operation_id = operation_id
+        self.status_code = status_code
         self.method = method
         self.url = url
         self.params = params

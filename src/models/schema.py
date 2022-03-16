@@ -18,6 +18,7 @@ class Schema:
     def __init__(self, schema: dict, meta_schema: str = META_SCHEMA):
         schema["$schema"] = meta_schema
         self.schema = JSONSchema(schema)
+        print('schema:', self.schema.data)
 
     def evaluate(self, json: dict) -> Scope:
         """

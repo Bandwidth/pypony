@@ -46,7 +46,7 @@ additionalProperties: false
         pattern: "(?i)^(get|put|post|delete|patch)$"
       url:
         type: string
-        pattern: "^(/\\w*)+$"
+        # pattern: "^(/\\w*)+$" TODO: Some URL validation here
       headers:
         type: object
       body:
@@ -55,7 +55,7 @@ additionalProperties: false
         type: object
       auth:
         "$ref": "#/$defs/auth"
-      statusCode:
+      status_code:
         type: number
         minimum: 100
         maximum: 600
@@ -64,4 +64,5 @@ additionalProperties: false
     - operation_id
     - method
     - url
+    - status_code
     additionalProperties: false

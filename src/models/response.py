@@ -20,7 +20,10 @@ class Response:
 
     def __getattr__(self, item):
         if item == "body":
-            body = self.__response.json()
+            if self.__response.headers['Content-Type'] == 'application/json':
+                body = self.__response.json()
+            else:
+                body = self.__response.content
             return Dict(body) if isinstance(body, dict) else body
 
         return getattr(self.__response, item)
