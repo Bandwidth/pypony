@@ -161,10 +161,10 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
 
             print('Response:')
             print(f'HTTP {response.status_code} {response.reason}')
-            print('Body:')
             if type(response.body) == bytes:
                 print(f'Body size: {len(response.body)} bytes')
             else:
+                print('Body:')
                 print_json(data=response.body, indent=4)
             print('')
 
@@ -184,7 +184,12 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
             context.add_operations(operation)
 
             # Verify the response
-            verification_result = operation.verify()
+            if 'application/json' in schema['content'].keys():
+                verification_result = operation.verify()
+            else:
+                print('deez')
+
+
             if not verification_result.valid:
                 raise ResponseValidationError(
                     errors=verification_result.output(OutputFormat.BASIC)["errors"],

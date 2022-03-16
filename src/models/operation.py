@@ -31,5 +31,4 @@ class Operation:
         Returns:
             Evaluate the response body and return the complete evaluation result tree.
         """
-        print(self.schema.keywords)
         return self.schema.evaluate(self.response.json())
