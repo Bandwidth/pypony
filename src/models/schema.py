@@ -3,7 +3,7 @@
 
 JSON Schema is a vocabulary that allows you to annotate and validate JSON documents.
 """
-
+from rich import inspect
 from jschon import JSONSchema, JSON
 from jschon.jsonschema import Scope
 
@@ -17,6 +17,9 @@ class Schema:
 
     def __init__(self, schema: dict, meta_schema: str = META_SCHEMA):
         schema["$schema"] = meta_schema
+
+        # TODO: `schema` is not a valid input for the JSONSchema class 
+        #  https://jschon.readthedocs.io/en/latest/
         self.schema = JSONSchema(schema)
 
     def evaluate(self, json: dict) -> Scope:

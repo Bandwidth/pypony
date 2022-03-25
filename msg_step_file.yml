@@ -16,13 +16,13 @@ operations:
       text: contract test
       applicationId: ${{ env.BW_MESSAGING_APPLICATION_ID }}
     status_code: 202
-  - name: getMessageSuccessful
-    operation_id: GetMessages
-    method: GET
-    url: /users/${{ env.BW_ACCOUNT_ID }}/messages
-    params:
-      messageId: ${{ operations.createMessageSuccessful.response.body.id }}
-    status_code: 200
+  # - name: getMessageSuccessful
+  #   operation_id: GetMessages
+  #   method: GET
+  #   url: /users/${{ env.BW_ACCOUNT_ID }}/messages
+  #   params:
+  #     messageId: ${{ operations.createMessageSuccessful.response.body.id }}
+  #   status_code: 200
   # - name: listMediaSuccessful
   #   operation_id: ListMedia
   #   method: GET

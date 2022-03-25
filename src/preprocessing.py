@@ -42,6 +42,7 @@ def get_endpoint_coverage(spec: dict, step: dict) -> EndpointCoverage:
     Returns:
         EndpointCoverage: A dataclass containing the endpoints covered, uncovered, and undocumented
     """
+    print('---Checking Operation Coverage---')
 
     # TODO: Instead of getting the `paths` make a list of all of the operations in the spec and step files and compare them
     # Get all endpoints in the spec file

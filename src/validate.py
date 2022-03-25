@@ -126,7 +126,7 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
         try:
             # Get operation name
             operation_name = operation_data.pop("name")
-            print(operation_name)
+            
 
             # Create Request object
             path_url = operation_data.pop("url")
@@ -134,14 +134,6 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
             
             # Evaluate expressions
             request.evaluate_all()
-
-            print('Request:')
-            print(f'{request.method} {request.url}')
-            print(f'Authentication: {request.auth}')
-            print(f'Body:')
-            print_json(data=request.body, indent=4)
-            print(f'Headers: {request.headers}')
-            print(f'Parameters: {request.params}')
 
             # Create Operation object
             operation = Operation(operation_name, request)
@@ -159,22 +151,14 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
             )
 
             response = operation.response
-
-            print('Response:')
-            print(f'HTTP {response.status_code} {response.reason}')
-            if type(response.body) == bytes:
-                print(f'Body size: {len(response.body)} bytes')
-            else:
-                print('Body:')
-                print_json(data=response.body, indent=4)
-            print('')
-
             status_code = operation.response.status_code
 
             # Fetch schema
             try:
                 schema = to_json_schema(operation_responses[operation_data['operation_id']][str(operation_data['status_code'])])
+                inspect(schema)
                 operation.schema = Schema(schema)
+                # inspect(operation.schema)
             except (AttributeError, KeyError):
                 raise ResponseMatchError(
                     operation_responses[operation_data['operation_id']].keys(),
@@ -189,6 +173,27 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
                 verification_result = operation.verify()
             else:
                 print('deez')
+
+            # TODO: make this nicer using a rich table
+            if verbose: 
+                print(f'Operation: {operation_name}')
+                print('--------------------')
+                print('Request:')
+                print(f'{request.method} {request.url}')
+                print(f'Authentication: {request.auth}')
+                print(f'Body:')
+                print_json(data=request.body, indent=4)
+                print(f'Headers: {request.headers}')
+                print(f'Parameters: {request.params}')
+                print('--------------------')
+                print('Response:')
+                print(f'HTTP {response.status_code} {response.reason}')
+                if type(response.body) == bytes:
+                    print(f'Body size: {len(response.body)} bytes')
+                else:
+                    print('Body:')
+                    print_json(data=response.body, indent=4)
+                print('--------------------\n\n')
 
 
             if not verification_result.valid:
