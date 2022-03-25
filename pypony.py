@@ -3,7 +3,6 @@ import traceback
 import click
 
 from src.validate import verify_api
-from rich import print
 
 
 @click.group()

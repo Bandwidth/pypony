@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """validate.py
 
-This module contains the primary code for the GitHub Action.
+This module contains the primary code for the package.
 Using the parsed OpenAPI specs and step files, it will create API requests and
 validate the responses.
 """
 import traceback
 
 import requests
-from rich import print, print_json
+from rich import print, print_json, inspect
 from dotenv import load_dotenv
 from jschon import create_catalog
 from jschon.jsonschema import OutputFormat
@@ -71,6 +71,7 @@ def check_endpoint_coverage(spec_data: dict, steps_data: dict):
     """
 
     endpoint_coverage = get_endpoint_coverage(spec_data, steps_data)
+    inspect(endpoint_coverage)
 
     # If any undocumented endpoints, immediately halt
     if endpoint_coverage.has_undocumented_endpoints():
@@ -226,6 +227,11 @@ def verify_api(spec_file_path: str, step_file_path: str, fail_fast: bool = False
     # Parse spec and step files
     spec_data, steps_data = parse_spec_steps(spec_file_path, step_file_path)
 
+    # TODO: This is broken. Outputs `paths' and exits
+    #  the reason for this is that the original code looked for a `paths` dict in the spec and steps.
+    #  with the overhaul of the schema to use operations, this logic was broken 
+    #  i think the best path forward is to compare operations instead of path coverage since paths can have multiple operations
+    # TODO: Refactor to `check_operation_coverage`
     # Check endpoint coverage
     # check_endpoint_coverage(spec_data, steps_data)
 

@@ -23,13 +23,13 @@ operations:
     params:
       messageId: ${{ operations.createMessageSuccessful.response.body.id }}
     status_code: 200
-  - name: listMediaSuccessful
-    operation_id: ListMedia
-    method: GET
-    url: /users/${{ env.BW_ACCOUNT_ID }}/media
-    status_code: 200
-  - name: getMediaSuccessful
-    operation_id: GetMedia
-    method: GET
-    url: /users/${{ env.BW_ACCOUNT_ID }}/media/${{ operations.listMediaSuccessful.response.body[1]['mediaName'] }}
-    status_code: 200
+  # - name: listMediaSuccessful
+  #   operation_id: ListMedia
+  #   method: GET
+  #   url: /users/${{ env.BW_ACCOUNT_ID }}/media
+  #   status_code: 200
+  # - name: getMediaSuccessful
+  #   operation_id: GetMedia
+  #   method: GET
+  #   url: /users/${{ env.BW_ACCOUNT_ID }}/media/${{ operations.listMediaSuccessful.response.body[1]['mediaName'] }}
+  #   status_code: 200

@@ -4,10 +4,10 @@
 This module contains functions to ensure compatibility for a step file and corresponding spec file.
 It will check that every method referenced in the step file exists in the spec file.
 """
-
+from rich import print, inspect
 from dataclasses import dataclass
 
-
+# TODO: refactor to `OperationCoverage`
 @dataclass
 class EndpointCoverage:
     """
@@ -30,6 +30,7 @@ class EndpointCoverage:
         )
 
 
+# TODO: refactor to `get_operation_coverage`
 def get_endpoint_coverage(spec: dict, step: dict) -> EndpointCoverage:
     """
     Given a parsed spec and step file, determine the endpoints in the spec that are achieved by the step file.
@@ -42,6 +43,7 @@ def get_endpoint_coverage(spec: dict, step: dict) -> EndpointCoverage:
         EndpointCoverage: A dataclass containing the endpoints covered, uncovered, and undocumented
     """
 
+    # TODO: Instead of getting the `paths` make a list of all of the operations in the spec and step files and compare them
     # Get all endpoints in the spec file
     spec_endpoints = set(spec["paths"].keys())
 
