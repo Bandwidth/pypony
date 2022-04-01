@@ -53,7 +53,7 @@ class ResponseMatchError(BaseException):
     Expected possible responses:
         {', '.join(list(statuses))}
     Actual response:
-        {step.status_code} {step.reason}: {step.text}"""
+        {step.status_code}"""
         )
 
 

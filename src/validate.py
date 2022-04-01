@@ -71,7 +71,7 @@ def check_endpoint_coverage(spec_data: dict, steps_data: dict):
     """
 
     endpoint_coverage = get_endpoint_coverage(spec_data, steps_data)
-    inspect(endpoint_coverage)
+    # inspect(endpoint_coverage)
 
     # If any undocumented endpoints, immediately halt
     if endpoint_coverage.has_undocumented_endpoints():
@@ -126,12 +126,13 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
         try:
             # Get operation name
             operation_name = operation_data.pop("name")
-            
 
             # Create Request object
             path_url = operation_data.pop("url")
             request = Request(url=(base_url + path_url), global_auth=global_auth, **operation_data)
             
+            # TODO: something isnt right here - setting request body as application/xml
+            #  in the spec but json in the step doesnt cause a failure
             # Evaluate expressions
             request.evaluate_all()
 
@@ -156,14 +157,19 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
             # Fetch schema
             try:
                 schema = to_json_schema(operation_responses[operation_data['operation_id']][str(operation_data['status_code'])])
-                inspect(schema)
-                operation.schema = Schema(schema)
-                # inspect(operation.schema)
             except (AttributeError, KeyError):
                 raise ResponseMatchError(
                     operation_responses[operation_data['operation_id']].keys(),
                     operation.response,
                 )
+
+            # delete the $schema key that `to_json_schema` creates, it causes issues in the Schema class
+            try:
+                del schema['$schema']
+            except KeyError:
+                pass
+
+            operation.schema = Schema(schema)
 
             # Save the step to further use
             context.add_operations(operation)
