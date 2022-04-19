@@ -3,7 +3,7 @@ import uuid
 
 import pytest
 
-from src.models import Context, Step, Request
+from src.models import Context, Operation, Request
 from src.models.errors import BaseContextError, EnvironmentVariableError
 
 
@@ -14,58 +14,78 @@ def context():
 
 @pytest.fixture(autouse=True)
 def cleanup(context):
-    context.clear_steps()
+    context.clear_operations()
     yield
-    context.clear_steps()
+    context.clear_operations()
 
 
 def _env(value):
     return "${{ env." + value + " }}"
 
 
-def _steps(value):
-    return "${{ steps." + value + " }}"
+def _operations(value):
+    return "${{ operations." + value + " }}"
 
 
 def test_step_add(context):
-    step = Step(
+    operation = Operation(
         name="createUser",
-        request=Request(method="POST", url="http://localhost:8000/users"),
+        request=Request(
+            operation_id="createUser", 
+            method="POST", 
+            url="http://localhost:8000/users",
+            status_code=200
+        )
     )
-    context.add_steps(step)
+    context.add_operations(operation)
 
-    assert context.steps.createUser == step
+    assert context.operations.createUser == operation
 
 
 def test_step_add_duplicated(context):
     for i in range(5):
-        context.add_steps(
-            Step(
+        context.add_operations(
+            Operation(
                 name="createUser",
-                request=Request(method="POST", url="http://localhost:8000/users"),
+                request=Request(
+                    operation_id="createUser",
+                    method="POST", 
+                    url="http://localhost:8000/users",
+                    status_code=200
+                )
             )
         )
 
-    assert len(vars(context.steps)) == 1
+    assert len(vars(context.operations)) == 1
 
 
 def test_step_clear(context):
-    context.add_steps(
-        Step(
+    context.add_operations(
+        Operation(
             name="createUser",
-            request=Request(method="POST", url="http://localhost:8000/users"),
+            request=Request(
+                operation_id="createUser",
+                method="POST", 
+                url="http://localhost:8000/users",
+                status_code=200
+            )
         )
     )
-    context.add_steps(
-        Step(
+    context.add_operations(
+        Operation(
             name="getUsers",
-            request=Request(method="GET", url="http://localhost:8000/users"),
+            request=Request(
+                operation_id="getUsers",
+                method="GET", 
+                url="http://localhost:8000/users",
+                status_code=200
+            )
         )
     )
-    assert len(vars(context.steps)) == 2
+    assert len(vars(context.operations)) == 2
 
-    context.clear_steps()
-    assert len(vars(context.steps)) == 0
+    context.clear_operations()
+    assert len(vars(context.operations)) == 0
 
 
 # Expression.evaluate() delegates Context.evaluate()
@@ -102,21 +122,33 @@ def test_evaluate_multiple(context):
 def test_evaluate_url(context):
     user_id = str(uuid.uuid4())
     account_id = str(uuid.uuid4())
-    context.add_steps(
-        Step(
-            name="createUser", request=Request(body={"id": user_id}, url="", method="")
+    context.add_operations(
+        Operation(
+            name="createUser", 
+            request=Request(
+                operation_id="createUser",
+                body={"id": user_id}, url="", 
+                method="",
+                status_code=200
+            )
         )
     )
-    context.add_steps(
-        Step(
+    context.add_operations(
+        Operation(
             name="createAccount",
-            request=Request(body={"id": account_id}, url="", method=""),
+            request=Request(
+                operation_id="createAccount",
+                body={"id": account_id}, 
+                url="", 
+                method="",
+                status_code=200
+            )   
         )
     )
 
     assert (
         context.evaluate(
-            f"/users/{_steps('createUser.request.body.id')}/accounts/{_steps('createAccount.request.body.id')}"
+            f"/users/{_operations('createUser.request.body.id')}/accounts/{_operations('createAccount.request.body.id')}"
         )
         == f"/users/{user_id}/accounts/{account_id}"
     )
