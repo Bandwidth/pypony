@@ -1,51 +1,48 @@
+coverage_threshold: 100
 base_url: http://127.0.0.1:8000
-paths:
-  /:
-    get:
-      operationId: getEnv
-      steps:
-        - name: getIndex
-          method: GET
-          url: /
-          params:
-            environment: ${{ env.SERVER_ENV }}
-  /users:
-    post:
-      operationId: createUser
-      steps:
-        - name: createSampleUser
-          method: POST
-          url: /users
-          body:
-            first_name: First
-            last_name: Last
-            date_of_birth: 2000-01-01
-            email: first.last@example.com
-            phone: 1234567890
-            address:
-              number: 1234
-              street: Example St.
-              city: Raleigh
-              state: NC
-              zip: 27607
-        - name: createSampleUserClone
-          method: POST
-          url: /users
-          body:
-            first_name: ${{ steps.createSampleUser.response.body.first_name }}_clone
-            last_name: ${{ steps.createSampleUser.response.body.last_name }}_clone
-            date_of_birth: ${{ steps.createSampleUser.response.body.date_of_birth.replace('2000', '2001') }}
-            email: ${{ steps.createSampleUser.response.body.first_name }}_clone.${{ steps.createSampleUser.response.body.last_name }}_clone@example.com
-            phone: ${{ steps.createSampleUser.response.body.phone }}
-            address:
-              number: ${{ steps.createSampleUser.response.body.address.number }}
-              street: ${{ steps.createSampleUser.response.body.address.number }}
-              city: ${{ steps.createSampleUser.response.body.address.city }}
-              state: ${{ steps.createSampleUser.response.body.address.state }}
-              zip: ${{ steps.createSampleUser.response.body.address.zip }}
-    get:
-      operationId: getUser
-      steps:
-        - name: getAllUsers
-          method: GET
-          url: /users
+operations:
+  - name: getEnvSuccessful
+    operation_id: getEnv
+    method: GET
+    url: /
+    params:
+      environment: ${{ env.SERVER_ENV }}
+    status_code: 200
+  - name: createUserSuccessful
+    operation_id: createUser
+    method: POST
+    url: /users
+    body:
+      first_name: First
+      last_name: Last
+      date_of_birth: 2000-01-01
+      email: first.last@example.com
+      phone: 1234567890
+      address:
+        number: 1234
+        street: Example St.
+        city: Raleigh
+        state: NC
+        zip: 27607
+    status_code: 201
+  - name: createSampleUserClone
+    method: POST
+    url: /users
+    body:
+      first_name: ${{ steps.createSampleUser.response.body.first_name }}_clone
+      last_name: ${{ steps.createSampleUser.response.body.last_name }}_clone
+      date_of_birth: ${{ steps.createSampleUser.response.body.date_of_birth.replace('2000', '2001') }}
+      email: ${{ steps.createSampleUser.response.body.first_name }}_clone.${{ steps.createSampleUser.response.body.last_name }}_clone@example.com
+      phone: ${{ steps.createSampleUser.response.body.phone }}
+      address:
+        number: ${{ steps.createSampleUser.response.body.address.number }}
+        street: ${{ steps.createSampleUser.response.body.address.number }}
+        city: ${{ steps.createSampleUser.response.body.address.city }}
+        state: ${{ steps.createSampleUser.response.body.address.state }}
+        zip: ${{ steps.createSampleUser.response.body.address.zip }}
+    status_code: 201
+  - name: getUsersSuccessful
+    operationId: getUser
+    method: GET
+    url: /users
+    status_code: 200

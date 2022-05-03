@@ -1,12 +1,10 @@
 # only one method covered
 base_url: http://127.0.0.1:8000
-paths:
-  /:
-    get:
-      operationId: getEnv
-      steps:
-        - name: getIndex
-          method: GET
-          url: /
-          params:
-            environment: ${{ env.SERVER_ENV }}
+operations:
+  - name: getEnvSuccessful
+    operation_id: getEnv
+    method: GET
+    url: /
+    params:
+      environment: ${{ env.SERVER_ENV }}
+    status_code: 200
