@@ -20,7 +20,7 @@ class Response:
 
     def __getattr__(self, item):
         if item == "body":
-            if self.__response.headers['Content-Type'] == 'application/json':
+            if 'application/json' in self.__response.headers['Content-Type']:
                 body = self.__response.json()
             else:
                 body = self.__response.content
