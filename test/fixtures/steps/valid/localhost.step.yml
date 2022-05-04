@@ -26,7 +26,7 @@ operations:
         zip: 27607
     status_code: 201
   - name: createSampleUserClone
-    operation_id: createSampleUserClone
+    operation_id: createUser
     method: POST
     url: /users
     body:
@@ -43,7 +43,7 @@ operations:
         zip: ${{ steps.createSampleUser.response.body.address.zip }}
     status_code: 201
   - name: getUsersSuccessful
-    operation_id: getUser
+    operation_id: getUsers
     method: GET
     url: /users
     status_code: 200

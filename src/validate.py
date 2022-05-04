@@ -107,8 +107,10 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
     # Set base url
     base_url: str = steps_data["base_url"]
 
-    # Set global auth
-    global_auth: dict = steps_data["auth"]
+    # Set global auth if it exists in the step file
+    global_auth: dict = {}
+    if 'auth' in steps_data.keys():
+        global_auth: dict = steps_data["auth"]
 
     # Get operations list
     operations: list = steps_data["operations"]
