@@ -73,11 +73,11 @@ def check_operation_coverage(spec_data: dict, steps_data: dict):
     operation_coverage = get_operation_coverage(spec_data, steps_data)
     # inspect(operation_coverage)
 
-    # If any undocumented endpoints, immediately halt
-    if operation_coverage.has_undocumented_endpoints():
+    # If any undocumented operations, immediately halt
+    if operation_coverage.has_undocumented_operations():
         raise UndocumentedOperationError(operation_coverage.undocumented)
 
-    # Check if endpoint coverage meets threshold
+    # Check if operation coverage meets threshold
     if "coverage_threshold" in steps_data:
         target_coverage: float = steps_data["coverage_threshold"]
         achieved_coverage = operation_coverage.proportion_covered()
@@ -243,7 +243,7 @@ def verify_api(spec_file_path: str, step_file_path: str, fail_fast: bool = False
     #  with the overhaul of the schema to use operations, this logic was broken 
     #  i think the best path forward is to compare operations instead of path coverage since paths can have multiple operations
     # TODO: Refactor to `check_operation_coverage`
-    # Check endpoint coverage
+    # Check operation coverage
     check_operation_coverage(spec_data, steps_data)
 
     # Make requests

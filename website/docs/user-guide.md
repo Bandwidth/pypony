@@ -61,7 +61,7 @@ paths:
 
 At the top level of a steps file, there are two required fields: `base_url` and `paths`. The `base_url` parameter is the base URL to which all requests will be sent. Paths is an object and is explained below.
 
-The `coverage_threshold` parameter is optional. If present, the action will compare the paths present in the spec to the paths present in the steps. If the proportion of paths present in the steps to paths present in the spec is less than the threshold, the action will fail and report which endpoints are uncovered. No matter if the `coverage_threshold` is present, the action will check for undocumented endpoints: those that are present in the steps but not the spec. If any of these are found, the action will fail.
+The `coverage_threshold` parameter is optional. If present, the action will compare the paths present in the spec to the paths present in the steps. If the proportion of paths present in the steps to paths present in the spec is less than the threshold, the action will fail and report which operations are uncovered. No matter if the `coverage_threshold` is present, the action will check for undocumented operations: those that are present in the steps but not the spec. If any of these are found, the action will fail.
 
 Warning: The base_url should be a URL without a trailing slash and without query parameters. However, our schema enforces only that it must be a valid URI according to RFC3986.
 
