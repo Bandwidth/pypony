@@ -81,7 +81,7 @@ def test_nullable_types():
     )
 
 
-def test_undocumented_endpoints():
+def test_undocumented_operations():
     with pytest.raises(UndocumentedOperationError):
         verify_api(
             os.path.join(
@@ -91,7 +91,7 @@ def test_undocumented_endpoints():
         )
 
 
-def test_insufficient_endpoint_coverage():
+def test_insufficient_operation_coverage():
     with pytest.raises(InsufficientCoverageError):
         verify_api(
             os.path.join("test", "fixtures", "specs", "valid", "coverage_spec.yml"),

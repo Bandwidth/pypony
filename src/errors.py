@@ -15,7 +15,7 @@ from .models import Response
 
 class UndocumentedOperationError(BaseException):
     """
-    Raised when the step file contains endpoints that are not documented in the OpenAPI spec.
+    Raised when the step file contains operations that are not documented in the OpenAPI spec.
     This error will halt further execution of the action.
     """
 

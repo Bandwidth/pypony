@@ -19,8 +19,8 @@ def test_compatible_spec_step():
     spec = parse_spec(
         os.path.join("test", "fixtures", "specs", "valid", "localhost.spec.yml")
     )
-    endpoint_coverage = get_operation_coverage(spec, step)
-    assert not endpoint_coverage.has_undocumented_endpoints()
+    operation_coverage = get_operation_coverage(spec, step)
+    assert not operation_coverage.has_undocumented_operations()
 
 
 def test_missing_spec_method():
@@ -36,9 +36,9 @@ def test_missing_spec_method():
     step = parse_steps(
         os.path.join("test", "fixtures", "steps", "valid", "localhost.step.yml")
     )
-    endpoint_coverage = get_operation_coverage(spec, step)
-    assert endpoint_coverage.has_undocumented_endpoints()
-    assert "/" not in endpoint_coverage.undocumented
+    operation_coverage = get_operation_coverage(spec, step)
+    assert operation_coverage.has_undocumented_operations()
+    assert "/" not in operation_coverage.undocumented
 
 
 def test_measure_operation_coverage():
@@ -52,7 +52,7 @@ def test_measure_operation_coverage():
     spec = parse_spec("./test/fixtures/specs/valid/coverage_spec.yml")
     operation_coverage = get_operation_coverage(spec, step)
 
-    assert operation_coverage.has_undocumented_endpoints()
+    assert operation_coverage.has_undocumented_operations()
     assert len(operation_coverage.undocumented) == 1
     assert operation_coverage.undocumented == {"undocumentedOperation"}
 

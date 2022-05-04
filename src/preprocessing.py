@@ -9,19 +9,19 @@ from dataclasses import dataclass
 
 # TODO: refactor to `OperationCoverage`
 @dataclass
-class EndpointCoverage:
+class OperationCoverage:
     """
-    Dictionary classifying endpoints into three categories:
-        - covered: endpoints that are called in the step file and documented in the spec file
-        - uncovered: endpoints that are in the spec file but not called in the step file
-        - undocumented: endpoints that are called in the step file but not documented in the spec file
+    Dictionary classifying operations into three categories:
+        - covered: operations that are called in the step file and documented in the spec file
+        - uncovered: operations that are in the spec file but not called in the step file
+        - undocumented: operations that are called in the step file but not documented in the spec file
     """
 
     covered: set[str]
     uncovered: set[str]
     undocumented: set[str]
 
-    def has_undocumented_endpoints(self) -> bool:
+    def has_undocumented_operations(self) -> bool:
         return len(self.undocumented) > 0
 
     def proportion_covered(self) -> float:
@@ -31,7 +31,7 @@ class EndpointCoverage:
 
 
 # TODO: refactor to `get_operation_coverage`
-def get_operation_coverage(spec: dict, step: dict) -> EndpointCoverage:
+def get_operation_coverage(spec: dict, step: dict) -> OperationCoverage:
     """
     Given a parsed spec and step file, determine the operations in the spec that are achieved by the step file.
 
@@ -56,7 +56,7 @@ def get_operation_coverage(spec: dict, step: dict) -> EndpointCoverage:
     for operation in step['operations']:
         step_operations.add(operation['operation_id'])
 
-    return EndpointCoverage(
+    return OperationCoverage(
         covered=spec_operations & step_operations,
         uncovered=spec_operations - step_operations,
         undocumented=step_operations - spec_operations,
