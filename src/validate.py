@@ -19,11 +19,11 @@ from .errors import (
     InsufficientCoverageError,
     ResponseMatchError,
     ResponseValidationError,
-    UndocumentedEndpointError,
+    UndocumentedOperationError,
 )
 from .models import Context, Request, Response, Schema, Operation
 from .parsing import parse_spec, parse_steps
-from .preprocessing import get_endpoint_coverage
+from .preprocessing import get_operation_coverage
 
 # Global variable storing all runtime contexts (initialize once)
 context = Context()
@@ -59,32 +59,32 @@ def parse_spec_steps(spec_file_path: str, step_file_path: str) -> tuple[dict, di
     return spec_data, steps_data
 
 
-def check_endpoint_coverage(spec_data: dict, steps_data: dict):
+def check_operation_coverage(spec_data: dict, steps_data: dict):
     """
-    Checks the endpoint coverage of the step file against the OpenAPI spec.
+    Checks the operation coverage of the step file against the OpenAPI spec.
 
     Args:
         spec_data (dict): The parsed OpenAPI spec
         steps_data (dict): The parsed step file
     Raises:
-        UndocumentedEndpointError:
+        UndocumentedOperationError:
     """
 
-    endpoint_coverage = get_endpoint_coverage(spec_data, steps_data)
-    # inspect(endpoint_coverage)
+    operation_coverage = get_operation_coverage(spec_data, steps_data)
+    # inspect(operation_coverage)
 
-    # If any undocumented endpoints, immediately halt
-    if endpoint_coverage.has_undocumented_endpoints():
-        raise UndocumentedEndpointError(endpoint_coverage.undocumented)
+    # If any undocumented operations, immediately halt
+    if operation_coverage.has_undocumented_operations():
+        raise UndocumentedOperationError(operation_coverage.undocumented)
 
-    # Check if endpoint coverage meets threshold
+    # Check if operation coverage meets threshold
     if "coverage_threshold" in steps_data:
         target_coverage: float = steps_data["coverage_threshold"]
-        achieved_coverage = endpoint_coverage.proportion_covered()
+        achieved_coverage = operation_coverage.proportion_covered()
 
         if achieved_coverage < target_coverage:
             raise InsufficientCoverageError(
-                achieved_coverage, target_coverage, endpoint_coverage.uncovered
+                achieved_coverage, target_coverage, operation_coverage.uncovered
             )
 
 
@@ -243,8 +243,8 @@ def verify_api(spec_file_path: str, step_file_path: str, fail_fast: bool = False
     #  with the overhaul of the schema to use operations, this logic was broken 
     #  i think the best path forward is to compare operations instead of path coverage since paths can have multiple operations
     # TODO: Refactor to `check_operation_coverage`
-    # Check endpoint coverage
-    # check_endpoint_coverage(spec_data, steps_data)
+    # Check operation coverage
+    check_operation_coverage(spec_data, steps_data)
 
     # Make requests
     make_requests(spec_data, steps_data, fail_fast, verbose)

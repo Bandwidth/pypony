@@ -1,18 +1,18 @@
 base_url: https://jservice.io
-paths:
-  /api/clues:
-    get:
-      operationId: getClues
-      steps:
-        - name: getAllClues1
-          method: GET
-          url: /api/clues
-          params:
-            category: 4642
-            value: 500
-        - name: getAllClues2
-          method: GET
-          url: /api/clues
-          params:
-            category: 4642
-            value: 500
+operations:
+  - name: getAllCluesSuccessful1
+    operation_id: getClues
+    method: GET
+    url: /api/clues
+    params:
+      category: 4642
+      value: 500
+    status_code: 200
+  - name: getAllCluesSuccessful2
+    operation_id: getClues
+    method: GET
+    url: /api/clues
+    params:
+      category: 4642
+      value: 500
+    status_code: 200

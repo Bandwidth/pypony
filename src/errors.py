@@ -13,15 +13,15 @@ from .models.errors import *
 from .models import Response
 
 
-class UndocumentedEndpointError(BaseException):
+class UndocumentedOperationError(BaseException):
     """
-    Raised when the step file contains endpoints that are not documented in the OpenAPI spec.
+    Raised when the step file contains operations that are not documented in the OpenAPI spec.
     This error will halt further execution of the action.
     """
 
     def __init__(self, undocumented: set[str]):
         super().__init__(
-            f"""The following endpoints are undocumented:
+            f"""The following operations are undocumented:
     {undocumented}"""
         )
 
@@ -36,8 +36,8 @@ class InsufficientCoverageError(BaseException):
         self, achieved_coverage: float, target_coverage: float, uncovered: set[str]
     ):
         super().__init__(
-            f"""The endpoint coverage is {achieved_coverage} but the target is {target_coverage}.
-    The following endpoints are uncovered: {uncovered}"""
+            f"""The operation coverage is {achieved_coverage} but the target is {target_coverage}.
+    The following operations are uncovered: {uncovered}"""
         )
 
 

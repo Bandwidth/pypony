@@ -1,4 +1,5 @@
-base_url: https://example.com
+base_url: "https://example.com"
+# no operation_id on the fetchPersonInfoUnsSuccessful operation
 operations:
   - name: createPersonSuccessful
     operation_id: createPerson
@@ -13,8 +14,8 @@ operations:
       username: some_user
       password: some_password
     status_code: 200
-  - name: fetchPersonInfoSuccessful
-    operation_id: fetchPersonInfo
+  - name: fetchPersonInfoUnsSuccessful
+    # operation_id: fetchPersonInfo
     method: GET
     url: /person
     params:

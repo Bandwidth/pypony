@@ -7,7 +7,7 @@ import pytest
 
 from src.validate import verify_api
 from src.errors import (
-    UndocumentedEndpointError,
+    UndocumentedOperationError,
     InsufficientCoverageError,
     ResponseMatchError,
     ResponseValidationError,
@@ -69,7 +69,7 @@ def test_step_scanner_error():
         verify_api(
             os.path.join("test", "fixtures", "specs", "valid", "localhost.spec.yml"),
             os.path.join(
-                "test", "fixtures", "steps", "invalid", "scanner", "invalid_steps1.yml"
+                "test", "fixtures", "steps", "invalid", "scanner", "invalid_yaml.yml"
             ),
         )
 
@@ -81,8 +81,8 @@ def test_nullable_types():
     )
 
 
-def test_undocumented_endpoints():
-    with pytest.raises(UndocumentedEndpointError):
+def test_undocumented_operations():
+    with pytest.raises(UndocumentedOperationError):
         verify_api(
             os.path.join(
                 "test", "fixtures", "specs", "valid", "localhost_undocumented.spec.yml"
@@ -91,7 +91,7 @@ def test_undocumented_endpoints():
         )
 
 
-def test_insufficient_endpoint_coverage():
+def test_insufficient_operation_coverage():
     with pytest.raises(InsufficientCoverageError):
         verify_api(
             os.path.join("test", "fixtures", "specs", "valid", "coverage_spec.yml"),
