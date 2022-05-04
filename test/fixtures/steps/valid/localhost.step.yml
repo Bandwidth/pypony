@@ -1,4 +1,4 @@
-coverage_threshold: 100
+coverage_threshold: 1.0
 base_url: http://127.0.0.1:8000
 operations:
   - name: getEnvSuccessful
@@ -26,6 +26,7 @@ operations:
         zip: 27607
     status_code: 201
   - name: createSampleUserClone
+    operation_id: createSampleUserClone
     method: POST
     url: /users
     body:
@@ -42,7 +43,7 @@ operations:
         zip: ${{ steps.createSampleUser.response.body.address.zip }}
     status_code: 201
   - name: getUsersSuccessful
-    operationId: getUser
+    operation_id: getUser
     method: GET
     url: /users
     status_code: 200

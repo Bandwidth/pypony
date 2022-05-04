@@ -3,7 +3,7 @@
 
 import os
 from src.parsing import parse_spec, parse_steps
-from src.preprocessing import get_endpoint_coverage
+from src.preprocessing import get_operation_coverage
 
 
 def test_compatible_spec_step():
@@ -19,7 +19,7 @@ def test_compatible_spec_step():
     spec = parse_spec(
         os.path.join("test", "fixtures", "specs", "valid", "localhost.spec.yml")
     )
-    endpoint_coverage = get_endpoint_coverage(spec, step)
+    endpoint_coverage = get_operation_coverage(spec, step)
     assert not endpoint_coverage.has_undocumented_endpoints()
 
 
@@ -36,35 +36,35 @@ def test_missing_spec_method():
     step = parse_steps(
         os.path.join("test", "fixtures", "steps", "valid", "localhost.step.yml")
     )
-    endpoint_coverage = get_endpoint_coverage(spec, step)
+    endpoint_coverage = get_operation_coverage(spec, step)
     assert endpoint_coverage.has_undocumented_endpoints()
     assert "/" not in endpoint_coverage.undocumented
 
 
-def test_measure_endpoint_coverage():
+def test_measure_operation_coverage():
     """
-    Verify that endpoint coverage between specs and steps is measured correctly
+    Verify that operation coverage between specs and steps is measured correctly
     """
 
     step = parse_steps("./test/fixtures/steps/valid/coverage_steps.yml")
     assert "coverage_threshold" in step
 
     spec = parse_spec("./test/fixtures/specs/valid/coverage_spec.yml")
-    endpoint_coverage = get_endpoint_coverage(spec, step)
+    operation_coverage = get_operation_coverage(spec, step)
 
-    assert endpoint_coverage.has_undocumented_endpoints()
-    assert len(endpoint_coverage.undocumented) == 1
-    assert endpoint_coverage.undocumented == {"/undocumented_path"}
+    assert operation_coverage.has_undocumented_endpoints()
+    assert len(operation_coverage.undocumented) == 1
+    assert operation_coverage.undocumented == {"undocumentedOperation"}
 
-    assert len(endpoint_coverage.covered) == 4
-    assert endpoint_coverage.covered == {
-        "/covered_path",
-        "/nested/path",
-        "/doubly/nested/path",
-        "/path/{with}/braces",
+    assert len(operation_coverage.covered) == 4
+    assert operation_coverage.covered == {
+        "coveredOperation",
+        "postOperation",
+        "putOperation",
+        "deleteOperation",
     }
 
-    assert len(endpoint_coverage.uncovered) == 1
-    assert endpoint_coverage.uncovered == {"/uncovered_path"}
+    assert len(operation_coverage.uncovered) == 1
+    assert operation_coverage.uncovered == {"uncoveredOperation"}
 
-    assert endpoint_coverage.proportion_covered() == 4 / (1 + 4 + 1)
+    assert operation_coverage.proportion_covered() == 4 / (1 + 4 + 1)

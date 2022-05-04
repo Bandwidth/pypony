@@ -7,10 +7,36 @@ info:
     It is meant to be used alongside coverage_steps.yml.
   version: 1.0.0
 paths:
-  /covered_path: {}
-  /uncovered_path: {}
+  /covered_path:
+    get:
+      description: A covered operation
+      operationId: coveredOperation
+      responses:
+        "200":
+          description: Successful response
+    post:
+      description: A covered post operation
+      operationId: postOperation
+      responses:
+        "200":
+          description: Successful response
+    put:
+      description: A covered put operation
+      operationId: putOperation
+      responses:
+        "200":
+          description: Successful response
+    delete:
+      description: A covered delete operation
+      operationId: deleteOperation
+      responses:
+        "204":
+          description: Successful response
+  /uncovered_path:
+    get:
+      description: An uncovered operation
+      operationId: uncoveredOperation
+      responses:
+        "200":
+          description: Successful response
   # Steps will include an undocumented path
-  /nested/path: {}
-  /doubly/nested/path: {}
-  /path/{with}/braces: {}
-components: {}
