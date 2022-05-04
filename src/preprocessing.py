@@ -31,28 +31,33 @@ class EndpointCoverage:
 
 
 # TODO: refactor to `get_operation_coverage`
-def get_endpoint_coverage(spec: dict, step: dict) -> EndpointCoverage:
+def get_operation_coverage(spec: dict, step: dict) -> EndpointCoverage:
     """
-    Given a parsed spec and step file, determine the endpoints in the spec that are achieved by the step file.
+    Given a parsed spec and step file, determine the operations in the spec that are achieved by the step file.
 
     Args:
         spec (dict): specification file parsed as dict
         step (dict): step file parsed as dict
 
     Returns:
-        EndpointCoverage: A dataclass containing the endpoints covered, uncovered, and undocumented
+        OperationCoverage: A dataclass containing the operations covered, uncovered, and undocumented
     """
     print('---Checking Operation Coverage---')
 
-    # TODO: Instead of getting the `paths` make a list of all of the operations in the spec and step files and compare them
-    # Get all endpoints in the spec file
-    spec_endpoints = set(spec["paths"].keys())
+    # Get all operations in the spec file
+    spec_operations = set()
+    for path in spec['paths']:
+        for method in spec['paths'][path]:
+            op_id = spec['paths'][path][method]['operationId']
+            spec_operations.add(op_id)
 
-    # Get all endpoints in the step file
-    step_endpoints = set(step["paths"].keys())
+    # Get all operations in the step file
+    step_operations = set()
+    for operation in step['operations']:
+        step_operations.add(operation['operation_id'])
 
     return EndpointCoverage(
-        covered=spec_endpoints & step_endpoints,
-        uncovered=spec_endpoints - step_endpoints,
-        undocumented=step_endpoints - spec_endpoints,
+        covered=spec_operations & step_operations,
+        uncovered=spec_operations - step_operations,
+        undocumented=step_operations - spec_operations,
     )
