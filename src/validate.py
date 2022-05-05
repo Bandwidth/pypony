@@ -8,10 +8,8 @@ validate the responses.
 import traceback
 
 import requests
-from rich import print, print_json, inspect
-from dotenv import load_dotenv
+from rich import print, print_json
 from jschon import create_catalog
-#from jschon.jsonschema import output
 from openapi_schema_to_json_schema import to_json_schema
 from requests.auth import HTTPBasicAuth
 
@@ -27,9 +25,6 @@ from .preprocessing import get_operation_coverage
 
 # Global variable storing all runtime contexts (initialize once)
 context = Context()
-
-# Load dotenv
-load_dotenv()
 
 
 def parse_spec_steps(spec_file_path: str, step_file_path: str) -> tuple[dict, dict]:

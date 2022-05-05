@@ -4,7 +4,7 @@
 This module contains functions to ensure compatibility for a step file and corresponding spec file.
 It will check that every method referenced in the step file exists in the spec file.
 """
-from rich import print, inspect
+from rich import print
 from dataclasses import dataclass
 
 # TODO: refactor to `OperationCoverage`
