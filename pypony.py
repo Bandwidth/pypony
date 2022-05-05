@@ -1,8 +1,6 @@
 import sys
 import traceback
-
 import click
-from actions_toolkit import core
 
 from src.validate import verify_api
 
@@ -30,9 +28,9 @@ def main(spec_file, step_file, fail_fast, verbose):
         verify_api(spec_file, step_file, fail_fast, verbose)
     except BaseException as e:
         if verbose:
-            core.error(traceback.format_exc(), title=e.__class__.__name__)
+            print(traceback.format_exc())
         else:
-            core.error(str(e), title=e.__class__.__name__)
+            print(str(e))
 
         sys.exit(1)
 

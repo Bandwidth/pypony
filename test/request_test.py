@@ -1,10 +1,10 @@
-from src.models import Request, Context, Step
+from src.models import Request, Context, Operation
 
 context = Context()
 
 
 def test_evaluate_all():
-    step = Step(
+    operation = Operation(
         'createUser',
         request=Request(
             method='POST',
@@ -15,35 +15,39 @@ def test_evaluate_all():
                     {
                         'name': 'Hello'
                     }
-            }
+            },
+            operation_id='CreateUser',
+            status_code=200
         )
     )
 
-    context.add_steps(step)
+    context.add_operations(operation)
 
     request = Request(
         method='GET',
-        url='${{ steps.createUser.request.url }}',
+        url='${{ operations.createUser.request.url }}',
         params={
             'user': {
-                'token': '${{ steps.createUser.request.params.token }}'
+                'token': '${{ operations.createUser.request.params.token }}'
             }
         },
         body={
             'name': [
-                '${{ steps.createUser.request.body.user.name }}',
-                '${{ steps.createUser.request.body.user.name }}'
+                '${{ operations.createUser.request.body.user.name }}',
+                '${{ operations.createUser.request.body.user.name }}'
             ]
-        }
+        },
+        operation_id='GetUser',
+        status_code=200
     )
 
     request.evaluate_all()
 
-    assert request.url == step.request.url
+    assert request.url == operation.request.url
 
     # nested dict
-    assert request.params.user.token == step.request.params.token
+    assert request.params.user.token == operation.request.params.token
 
     # list
     for name in request.body.name:
-        assert name == step.request.body.user.name
+        assert name == operation.request.body.user.name

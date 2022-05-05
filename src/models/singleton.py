@@ -4,6 +4,7 @@
 This module is only used by Context to ensure the uniqueness of the global context state.
 """
 
+
 class Singleton(type):
     """
     Restricts the instantiation of a class to one single instance.

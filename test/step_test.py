@@ -1,17 +1,19 @@
 import json
 
-from jschon import JSONSchema, create_catalog
 from src.errors import JSONValidatorError
+from jsonschema import ValidationError
+from jschon import create_catalog
 from src.parsing import parse_steps
 from yaml.scanner import ScannerError
+from jschon import JSONSchema
 
 from .fixtures import *
 
 # Load JSON catalog and steps schema
-create_catalog("2020-12", default=True)
+create_catalog("2020-12")
 
-with open("src/steps_schema.json", "r") as f:
-    schema = JSONSchema(json.load(f))
+# with open("src/steps_schema.yml", "r") as f:
+#     schema = JSONSchema(json.load(f))
 
 
 def test_parse_valid_steps(valid_steps: list[str]):
@@ -24,7 +26,7 @@ def test_parse_valid_steps(valid_steps: list[str]):
 
 def test_parse_invalid_steps(invalid_schema_steps: list[str]):
     for vs in invalid_schema_steps:
-        with pytest.raises(JSONValidatorError):
+        with pytest.raises(ValidationError):
             parse_steps(vs)
 
 

@@ -1,5 +1,6 @@
-base_url: https://example.com
-operations:
+base_url: "https://example.com"
+# invalid yaml on line 2, operations is missing ':'
+operations
   - name: createPersonSuccessful
     operation_id: createPerson
     method: POST
@@ -13,7 +14,7 @@ operations:
       username: some_user
       password: some_password
     status_code: 200
-  - name: fetchPersonInfoSuccessful
+  - name: fetchPersonInfoUnsSuccessful
     operation_id: fetchPersonInfo
     method: GET
     url: /person

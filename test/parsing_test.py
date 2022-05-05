@@ -9,7 +9,7 @@ from prance.util.url import ResolutionError
 
 
 def test_parse_valid_specs(valid_specs: list[str]):
-    required_keys = ["openapi", "info", "paths", "components"]
+    required_keys = ["openapi", "info", "paths"]
     for valid_spec in valid_specs:
         parsed_spec = parse_spec(valid_spec)
         assert parsed_spec.keys() & required_keys == set(required_keys)
@@ -27,4 +27,4 @@ def test_parse_invalid_specs(invalid_specs: list[str]):
 def test_parse_valid_steps(valid_steps: list[str]):
     for valid_step in valid_steps:
         parsed_steps = parse_steps(valid_step)
-        assert {"base_url", "paths"}.issubset(parsed_steps.keys())
+        assert {"base_url", "operations"}.issubset(parsed_steps.keys())

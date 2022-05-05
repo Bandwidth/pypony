@@ -1,0 +1,68 @@
+---
+type: object
+properties:
+  coverage_threshold:
+    type: number
+    minimum: 0
+    maximum: 1
+  base_url:
+    type: string
+    format: uri
+  auth:
+    "$ref": "#/$defs/auth"
+  operations:
+    type: array
+    items:
+      "$ref": "#/$defs/operation"
+    additionalProperties: false
+required:
+- base_url
+- operations
+additionalProperties: false
+
+"$defs":
+  auth:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+    - username
+    - password
+    additionalProperties: false
+  operation:
+    type: object
+    properties:
+      name:
+        type: string
+        pattern: "\\w+"
+      operation_id:
+        type: string
+        pattern: "\\w+"
+      method:
+        type: string
+        pattern: "(?i)^(get|put|post|delete|patch)$"
+      url:
+        type: string
+        # pattern: "^(/\\w*)+$" TODO: Some URL validation here
+      headers:
+        type: object
+      body:
+        type: object
+      params:
+        type: object
+      auth:
+        "$ref": "#/$defs/auth"
+      status_code:
+        type: number
+        minimum: 100
+        maximum: 600
+    required:
+    - name
+    - operation_id
+    - method
+    - url
+    - status_code
+    additionalProperties: false

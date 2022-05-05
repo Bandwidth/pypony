@@ -4,24 +4,24 @@
 This module contains functions to ensure compatibility for a step file and corresponding spec file.
 It will check that every method referenced in the step file exists in the spec file.
 """
-
+from rich import print
 from dataclasses import dataclass
 
-
+# TODO: refactor to `OperationCoverage`
 @dataclass
-class EndpointCoverage:
+class OperationCoverage:
     """
-    Dictionary classifying endpoints into three categories:
-        - covered: endpoints that are called in the step file and documented in the spec file
-        - uncovered: endpoints that are in the spec file but not called in the step file
-        - undocumented: endpoints that are called in the step file but not documented in the spec file
+    Dictionary classifying operations into three categories:
+        - covered: operations that are called in the step file and documented in the spec file
+        - uncovered: operations that are in the spec file but not called in the step file
+        - undocumented: operations that are called in the step file but not documented in the spec file
     """
 
     covered: set[str]
     uncovered: set[str]
     undocumented: set[str]
 
-    def has_undocumented_endpoints(self) -> bool:
+    def has_undocumented_operations(self) -> bool:
         return len(self.undocumented) > 0
 
     def proportion_covered(self) -> float:
@@ -30,26 +30,34 @@ class EndpointCoverage:
         )
 
 
-def get_endpoint_coverage(spec: dict, step: dict) -> EndpointCoverage:
+# TODO: refactor to `get_operation_coverage`
+def get_operation_coverage(spec: dict, step: dict) -> OperationCoverage:
     """
-    Given a parsed spec and step file, determine the endpoints in the spec that are achieved by the step file.
+    Given a parsed spec and step file, determine the operations in the spec that are achieved by the step file.
 
     Args:
         spec (dict): specification file parsed as dict
         step (dict): step file parsed as dict
 
     Returns:
-        EndpointCoverage: A dataclass containing the endpoints covered, uncovered, and undocumented
+        OperationCoverage: A dataclass containing the operations covered, uncovered, and undocumented
     """
+    print('---Checking Operation Coverage---')
 
-    # Get all endpoints in the spec file
-    spec_endpoints = set(spec["paths"].keys())
+    # Get all operations in the spec file
+    spec_operations = set()
+    for path in spec['paths']:
+        for method in spec['paths'][path]:
+            op_id = spec['paths'][path][method]['operationId']
+            spec_operations.add(op_id)
 
-    # Get all endpoints in the step file
-    step_endpoints = set(step["paths"].keys())
+    # Get all operations in the step file
+    step_operations = set()
+    for operation in step['operations']:
+        step_operations.add(operation['operation_id'])
 
-    return EndpointCoverage(
-        covered=spec_endpoints & step_endpoints,
-        uncovered=spec_endpoints - step_endpoints,
-        undocumented=step_endpoints - spec_endpoints,
+    return OperationCoverage(
+        covered=spec_operations & step_operations,
+        uncovered=spec_operations - step_operations,
+        undocumented=step_operations - spec_operations,
     )

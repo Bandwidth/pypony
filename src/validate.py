@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 """validate.py
 
-This module contains the primary code for the GitHub Action.
+This module contains the primary code for the package.
 Using the parsed OpenAPI specs and step files, it will create API requests and
 validate the responses.
 """
-import os
 import traceback
 
 import requests
 from rich import print, print_json
-from dotenv import load_dotenv
 from jschon import create_catalog
-from jschon.jsonschema import OutputFormat
 from openapi_schema_to_json_schema import to_json_schema
 from requests.auth import HTTPBasicAuth
 
@@ -20,17 +17,14 @@ from .errors import (
     InsufficientCoverageError,
     ResponseMatchError,
     ResponseValidationError,
-    UndocumentedEndpointError,
+    UndocumentedOperationError,
 )
-from .models import Context, Request, Response, Schema, Step
+from .models import Context, Request, Response, Schema, Operation
 from .parsing import parse_spec, parse_steps
-from .preprocessing import get_endpoint_coverage
+from .preprocessing import get_operation_coverage
 
 # Global variable storing all runtime contexts (initialize once)
 context = Context()
-
-# Load dotenv
-load_dotenv()
 
 
 def parse_spec_steps(spec_file_path: str, step_file_path: str) -> tuple[dict, dict]:
@@ -60,31 +54,32 @@ def parse_spec_steps(spec_file_path: str, step_file_path: str) -> tuple[dict, di
     return spec_data, steps_data
 
 
-def check_endpoint_coverage(spec_data: dict, steps_data: dict):
+def check_operation_coverage(spec_data: dict, steps_data: dict):
     """
-    Checks the endpoint coverage of the step file against the OpenAPI spec.
+    Checks the operation coverage of the step file against the OpenAPI spec.
 
     Args:
         spec_data (dict): The parsed OpenAPI spec
         steps_data (dict): The parsed step file
     Raises:
-        UndocumentedEndpointError:
+        UndocumentedOperationError:
     """
 
-    endpoint_coverage = get_endpoint_coverage(spec_data, steps_data)
+    operation_coverage = get_operation_coverage(spec_data, steps_data)
+    # inspect(operation_coverage)
 
-    # If any undocumented endpoints, immediately halt
-    if endpoint_coverage.has_undocumented_endpoints():
-        raise UndocumentedEndpointError(endpoint_coverage.undocumented)
+    # If any undocumented operations, immediately halt
+    if operation_coverage.has_undocumented_operations():
+        raise UndocumentedOperationError(operation_coverage.undocumented)
 
-    # Check if endpoint coverage meets threshold
+    # Check if operation coverage meets threshold
     if "coverage_threshold" in steps_data:
         target_coverage: float = steps_data["coverage_threshold"]
-        achieved_coverage = endpoint_coverage.proportion_covered()
+        achieved_coverage = operation_coverage.proportion_covered()
 
         if achieved_coverage < target_coverage:
             raise InsufficientCoverageError(
-                achieved_coverage, target_coverage, endpoint_coverage.uncovered
+                achieved_coverage, target_coverage, operation_coverage.uncovered
             )
 
 
@@ -104,113 +99,122 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
 
     print('---Validating APIs---')
 
-    # Create requests
+    # Set base url
     base_url: str = steps_data["base_url"]
-    paths: dict = steps_data["paths"]
 
-    # Go through each path in the steps
-    path_value: dict
-    for path_key, path_value in paths.items():
-        # Go through each method in each path
-        method_value: dict
-        for method_name, method_value in path_value.items():
-            # Store steps of current method
-            context.clear_steps()
+    # Set global auth if it exists in the step file
+    global_auth: dict = {}
+    if 'auth' in steps_data.keys():
+        global_auth: dict = steps_data["auth"]
 
-            # Get steps YAML from file
-            method_steps: list = method_value["steps"]
+    # Get operations list
+    operations: list = steps_data["operations"]
 
-            # Go through each step in each method
-            step_data: dict
-            for step_data in method_steps:
-                try:
-                    # Get step name
-                    step_name = step_data.pop("name")
-                    print(step_name)
+    # Create responses dict for easier parsing
+    operation_responses: dict = {}
+    for path in spec_data['paths']:
+        for method in spec_data['paths'][path]:
+            op_id = spec_data['paths'][path][method]['operationId']
+            operation_responses[op_id] = spec_data['paths'][path][method]['responses']
 
-                    # Create Request object
-                    path_url = step_data.pop("url")
-                    request = Request(url=(base_url + path_url), **step_data)
+    # Go through each operation
+    operation_data: dict
+    for operation_data in operations:
+        try:
+            # Get operation name
+            operation_name = operation_data.pop("name")
 
-                    # Evaluate expressions
-                    request.evaluate_all()
+            # Create Request object
+            path_url = operation_data.pop("url")
+            request = Request(url=(base_url + path_url), global_auth=global_auth, **operation_data)
+            
+            # TODO: something isnt right here - setting request body as application/xml
+            #  in the spec but json in the step doesnt cause a failure
+            # Evaluate expressions
+            request.evaluate_all()
 
-                    print('Request:')
-                    print(f'{request.method} {request.url}')
-                    print(f'Authentication: {request.auth}')
-                    print(f'Body:')
-                    print_json(data=request.body, indent=4)
-                    print(f'Headers: {request.headers}')
-                    print(f'Parameters: {request.params}')
+            # Create Operation object
+            operation = Operation(operation_name, request)
 
-                    # Create Step object
-                    step = Step(step_name, request)
+            # Send the request
+            operation.response = Response(
+                requests.request(
+                    method=request.method,
+                    url=request.url,
+                    params=request.params.to_dict(),
+                    headers=request.headers.to_dict(),
+                    json=request.body.to_dict(),
+                    auth=HTTPBasicAuth(**request.auth),
+                )
+            )
 
-                    # Send the request
-                    step.response = Response(
-                        requests.request(
-                            method=request.method,
-                            url=request.url,
-                            params=request.params.to_dict(),
-                            headers=request.headers.to_dict(),
-                            json=request.body.to_dict(),
-                            auth=HTTPBasicAuth(**request.auth),
-                        )
-                    )
+            response = operation.response
+            status_code = operation.response.status_code
 
-                    response = step.response
+            # Fetch schema
+            try:
+                schema = to_json_schema(operation_responses[operation_data['operation_id']][str(operation_data['status_code'])])
+            except (AttributeError, KeyError):
+                raise ResponseMatchError(
+                    operation_responses[operation_data['operation_id']].keys(),
+                    operation.response,
+                )
 
-                    print('Response:')
-                    print(f'HTTP {response.status_code} {response.reason}')
+            # delete the $schema key that `to_json_schema` creates, it causes issues in the Schema class
+            try:
+                del schema['$schema']
+            except KeyError:
+                pass
+
+            operation.schema = Schema(schema)
+
+            # Save the step to further use
+            context.add_operations(operation)
+
+            # Verify the response
+            if 'application/json' in schema['content'].keys():
+                verification_result = operation.verify()
+            else:
+                print('deez')
+
+            # TODO: make this nicer using a rich table
+            if verbose: 
+                print(f'Operation: {operation_name}')
+                print('--------------------')
+                print('Request:')
+                print(f'{request.method} {request.url}')
+                print(f'Authentication: {request.auth}')
+                print(f'Body:')
+                print_json(data=request.body, indent=4)
+                print(f'Headers: {request.headers}')
+                print(f'Parameters: {request.params}')
+                print('--------------------')
+                print('Response:')
+                print(f'HTTP {response.status_code} {response.reason}')
+                if type(response.body) == bytes:
+                    print(f'Body size: {len(response.body)} bytes')
+                else:
+                    print('Body:')
                     print_json(data=response.body, indent=4)
-                    print('')
+                print('--------------------\n\n')
 
-                    status_code = step.response.status_code
 
-                    # Fetch schema
-                    try:
-                        schema = to_json_schema(
-                            spec_data.get("paths")
-                                .get(path_key)
-                                .get(method_name)
-                                .get("responses")
-                            .get(str(status_code))
-                            .get("content")
-                            .get("application/json")
-                            .get("schema")
-                        )
-                        step.schema = Schema(schema)
-                    except AttributeError:
-                        raise ResponseMatchError(
-                            spec_data.get("paths")
-                            .get(path_key)
-                            .get(method_name)
-                            .get("responses")
-                            .keys(),
-                            step.response,
-                        )
+            if not verification_result.valid:
+                raise ResponseValidationError(
+                    errors=verification_result.output('basic')["errors"],
+                    url=path_url,
+                    method=operation_data['method'],
+                    status_code=status_code,
+                )
 
-                    # Save the step to further use
-                    context.add_steps(step)
+        except BaseException as e:
+            if fail_fast:
+                raise e
 
-                    # Verify the response
-                    verification_result = step.verify()
-                    if not verification_result.valid:
-                        raise ResponseValidationError(
-                            errors=verification_result.output(OutputFormat.BASIC)["errors"],
-                            url=path_url,
-                            method=method_name,
-                            status_code=status_code,
-                        )
-
-                except BaseException as e:
-                    if fail_fast:
-                        raise e
-
-                    if verbose:
-                        print(f'[red]{traceback.format_exc()}[/red]')
-                    else:
-                        print(f'[bold red]{str(e)}[/bold red]')
+            if verbose:
+                print(f'[red]{traceback.format_exc()}[/red]')
+            else:
+                print(f'[bold red]{str(e)}[/bold red]')
 
 
 def verify_api(spec_file_path: str, step_file_path: str, fail_fast: bool = False, verbose: bool = False):
@@ -226,13 +230,18 @@ def verify_api(spec_file_path: str, step_file_path: str, fail_fast: bool = False
         verbose (bool): Whether to output stacktrace
     """
 
-    create_catalog("2020-12", default=True)
+    create_catalog("2020-12")
 
     # Parse spec and step files
     spec_data, steps_data = parse_spec_steps(spec_file_path, step_file_path)
 
-    # Check endpoint coverage
-    check_endpoint_coverage(spec_data, steps_data)
+    # TODO: This is broken. Outputs `paths' and exits
+    #  the reason for this is that the original code looked for a `paths` dict in the spec and steps.
+    #  with the overhaul of the schema to use operations, this logic was broken 
+    #  i think the best path forward is to compare operations instead of path coverage since paths can have multiple operations
+    # TODO: Refactor to `check_operation_coverage`
+    # Check operation coverage
+    check_operation_coverage(spec_data, steps_data)
 
     # Make requests
     make_requests(spec_data, steps_data, fail_fast, verbose)

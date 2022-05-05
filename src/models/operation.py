@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""step.py:
+"""operation.py:
 
-Encapsulates step data from the step file, including name, request, response, and schema for easy access.
+Encapsulates operation data from the step file, including name, request, response, and schema for easy access.
 """
 
 from dataclasses import dataclass
@@ -14,9 +14,9 @@ from .schema import Schema
 
 
 @dataclass
-class Step:
+class Operation:
     """
-    Steps object manages request, response, and schema.
+    Operations object manages request, response, and schema.
     """
 
     name: str
@@ -31,5 +31,4 @@ class Step:
         Returns:
             Evaluate the response body and return the complete evaluation result tree.
         """
-
         return self.schema.evaluate(self.response.json())

@@ -6,21 +6,16 @@ It will parse input files, returning a nested dictionary object.
 If the input file is not valid, it will raise an exception.
 """
 
-import importlib.resources
-import json
 import os
 
 import yaml
-from jschon import JSON, JSONSchema
-from jschon.jsonschema import OutputFormat
+from jsonschema import validate, ValidationError
 from openapi_spec_validator import validate_spec
 from prance import ResolvingParser, ValidationError
 from prance.util.url import ResolutionError
 from ruamel.yaml.scanner import ScannerError as RuamelScannerError
 from yaml.constructor import SafeConstructor
 from yaml.scanner import ScannerError as PyYAMLScannerError
-
-from .errors import JSONValidatorError
 
 
 def parse_spec(spec_file_path: str) -> dict:
@@ -76,12 +71,10 @@ def parse_steps(step_file_path: str) -> dict:
     """
 
     try:
-        with importlib.resources.path(
-            __package__, "steps_schema.json"
-        ) as step_schema_file:
-            steps_schema = JSONSchema(json.loads(step_schema_file.read_text()))
+        with open("./src/steps_schema.yml", "r") as step_schema_file:
+            steps_schema = yaml.safe_load(step_schema_file.read())
     except FileNotFoundError as e:
-        raise FileNotFoundError(f"Steps schema file not found") from e
+        raise FileNotFoundError("Steps schema file not found") from e
 
     try:
         with open(step_file_path, "r") as step_file:
@@ -92,11 +85,10 @@ def parse_steps(step_file_path: str) -> dict:
 
             # Load the step file and validate it against the step file schema
             yaml_dict = yaml.safe_load(step_file)
-            result = steps_schema.evaluate(JSON(yaml_dict))
-            result_output = result.output(OutputFormat.BASIC)
+            validate(yaml_dict, steps_schema)
 
-            if not result_output["valid"]:
-                raise JSONValidatorError(result_output["errors"])
+    except ValidationError as e:
+        raise ValidationError(f"Steps file has the following syntax errors: {e} ") from e
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Steps file {step_file_path} not found") from e
     except PyYAMLScannerError as e:

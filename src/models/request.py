@@ -17,18 +17,25 @@ class Request:
     """
     def __init__(
         self,
+        operation_id: str,
+        status_code: int,
         method: str,
         url: str,
         params: dict = None,
         body: dict = None,
         headers: dict = None,
         auth: dict = None,
+        global_auth: dict = None
+
     ):
+        self.operation_id = operation_id
+        self.status_code = status_code
         self.method = method
         self.url = url
         self.params = params
         self.body = body
         self.headers = headers
+        self.global_auth = global_auth
         self.auth = auth
 
     @property
@@ -61,7 +68,20 @@ class Request:
 
     @auth.setter
     def auth(self, value):
-        self._auth = Dict(value if value else {"username": "", "password": ""})
+        if value:
+            self._auth = value
+        elif self.global_auth:
+            self._auth = Dict(self.global_auth)
+        else:
+            self._auth = {"username": "", "password": ""}
+
+    @property
+    def global_auth(self):
+        return self._global_auth
+
+    @global_auth.setter
+    def global_auth(self, value):
+        self._global_auth = value
 
     def evaluate_all(self) -> None:
         """
@@ -76,6 +96,6 @@ class Request:
         self.url = context.evaluate(self.url)
 
         # Evaluate all Dict object
-        for name in ("params", "body", "headers", "auth"):
+        for name in ("params", "body", "headers", "global_auth",  "auth"):
             attr = self.__getattribute__(name)
             self.__setattr__(name, context.evaluate(attr))
