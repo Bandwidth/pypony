@@ -11,7 +11,7 @@ import requests
 from rich import print, print_json, inspect
 from dotenv import load_dotenv
 from jschon import create_catalog
-from jschon.jsonschema import OutputFormat
+#from jschon.jsonschema import output
 from openapi_schema_to_json_schema import to_json_schema
 from requests.auth import HTTPBasicAuth
 
@@ -206,7 +206,7 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
 
             if not verification_result.valid:
                 raise ResponseValidationError(
-                    errors=verification_result.output(OutputFormat.BASIC)["errors"],
+                    errors=verification_result.output('basic')["errors"],
                     url=path_url,
                     method=operation_data['method'],
                     status_code=status_code,
@@ -235,7 +235,7 @@ def verify_api(spec_file_path: str, step_file_path: str, fail_fast: bool = False
         verbose (bool): Whether to output stacktrace
     """
 
-    create_catalog("2020-12", default=True)
+    create_catalog("2020-12")
 
     # Parse spec and step files
     spec_data, steps_data = parse_spec_steps(spec_file_path, step_file_path)

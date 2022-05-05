@@ -2,6 +2,7 @@ import json
 
 from src.errors import JSONValidatorError
 from jsonschema import ValidationError
+from jschon import create_catalog
 from src.parsing import parse_steps
 from yaml.scanner import ScannerError
 from jschon import JSONSchema
@@ -9,7 +10,7 @@ from jschon import JSONSchema
 from .fixtures import *
 
 # Load JSON catalog and steps schema
-#create_catalog("2020-12", default=True)
+create_catalog("2020-12")
 
 # with open("src/steps_schema.yml", "r") as f:
 #     schema = JSONSchema(json.load(f))
