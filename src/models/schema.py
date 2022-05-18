@@ -19,7 +19,6 @@ class Schema:
     def __init__(self, schema: dict, meta_schema: str = META_SCHEMA):
         json = {"$schema": meta_schema}
 
-        # TODO: support more content types
         try:
             json.update(schema['content']['application/json']['schema'])
         except KeyError as e:
@@ -38,5 +37,4 @@ class Schema:
         Returns:
             Evaluate a JSON document and return the complete evaluation result tree.
         """
-        # inspect(self.schema, methods=True)
         return self.schema.evaluate(JSON(json))

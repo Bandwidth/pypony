@@ -165,16 +165,17 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
             except KeyError:
                 pass
 
-            step.schema = Schema(schema)
-
             # Save the step to further use
             context.add_steps(step)
 
             # Verify the response
             if 'application/json' in schema['content'].keys():
+                step.schema = Schema(schema)
                 verification_result = step.verify()
             else:
-                print('deez')
+                if verbose:
+                    print('The response schema Content-Type for this endpoint is not supported.'
+                          '\nThis response will not be validated.')
 
             # TODO: make this nicer using a rich table
             if verbose: 
