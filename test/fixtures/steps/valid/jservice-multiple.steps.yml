@@ -1,5 +1,5 @@
 base_url: https://jservice.io
-operations:
+steps:
   - name: getAllCluesSuccessful1
     operation_id: getClues
     method: GET

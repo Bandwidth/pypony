@@ -1,6 +1,6 @@
 base_url: "https://example.com"
 # no operation_id on the fetchPersonInfoUnsSuccessful operation
-operations:
+steps:
   - name: createPersonSuccessful
     operation_id: createPerson
     method: POST

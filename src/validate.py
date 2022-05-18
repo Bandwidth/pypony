@@ -19,7 +19,7 @@ from .errors import (
     ResponseValidationError,
     UndocumentedOperationError,
 )
-from .models import Context, Request, Response, Schema, Operation
+from .models import Context, Request, Response, Schema, Step
 from .parsing import parse_spec, parse_steps
 from .preprocessing import get_operation_coverage
 
@@ -66,7 +66,6 @@ def check_operation_coverage(spec_data: dict, steps_data: dict):
     """
 
     operation_coverage = get_operation_coverage(spec_data, steps_data)
-    # inspect(operation_coverage)
 
     # If any undocumented operations, immediately halt
     if operation_coverage.has_undocumented_operations():
@@ -107,8 +106,8 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
     if 'auth' in steps_data.keys():
         global_auth: dict = steps_data["auth"]
 
-    # Get operations list
-    operations: list = steps_data["operations"]
+    # Get steps list
+    steps: list = steps_data["steps"]
 
     # Create responses dict for easier parsing
     operation_responses: dict = {}
@@ -117,27 +116,27 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
             op_id = spec_data['paths'][path][method]['operationId']
             operation_responses[op_id] = spec_data['paths'][path][method]['responses']
 
-    # Go through each operation
-    operation_data: dict
-    for operation_data in operations:
+    # Go through each step
+    step_data: dict
+    for step_data in steps:
         try:
-            # Get operation name
-            operation_name = operation_data.pop("name")
+            # Get step name
+            step_name = step_data.pop("name")
 
             # Create Request object
-            path_url = operation_data.pop("url")
-            request = Request(url=(base_url + path_url), global_auth=global_auth, **operation_data)
+            path_url = step_data.pop("url")
+            request = Request(url=(base_url + path_url), global_auth=global_auth, **step_data)
             
             # TODO: something isnt right here - setting request body as application/xml
             #  in the spec but json in the step doesnt cause a failure
             # Evaluate expressions
             request.evaluate_all()
 
-            # Create Operation object
-            operation = Operation(operation_name, request)
+            # Create Step object
+            step = Step(step_name, request)
 
             # Send the request
-            operation.response = Response(
+            step.response = Response(
                 requests.request(
                     method=request.method,
                     url=request.url,
@@ -148,16 +147,16 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
                 )
             )
 
-            response = operation.response
-            status_code = operation.response.status_code
+            response = step.response
+            status_code = step.response.status_code
 
             # Fetch schema
             try:
-                schema = to_json_schema(operation_responses[operation_data['operation_id']][str(operation_data['status_code'])])
+                schema = to_json_schema(operation_responses[step_data['operation_id']][str(step_data['status_code'])])
             except (AttributeError, KeyError):
                 raise ResponseMatchError(
-                    operation_responses[operation_data['operation_id']].keys(),
-                    operation.response,
+                    operation_responses[step_data['operation_id']].keys(),
+                    step.response,
                 )
 
             # delete the $schema key that `to_json_schema` creates, it causes issues in the Schema class
@@ -166,20 +165,20 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
             except KeyError:
                 pass
 
-            operation.schema = Schema(schema)
+            step.schema = Schema(schema)
 
             # Save the step to further use
-            context.add_operations(operation)
+            context.add_steps(step)
 
             # Verify the response
             if 'application/json' in schema['content'].keys():
-                verification_result = operation.verify()
+                verification_result = step.verify()
             else:
                 print('deez')
 
             # TODO: make this nicer using a rich table
             if verbose: 
-                print(f'Operation: {operation_name}')
+                print(f'Step: {step_name}')
                 print('--------------------')
                 print('Request:')
                 print(f'{request.method} {request.url}')
@@ -203,7 +202,7 @@ def make_requests(spec_data: dict, steps_data: dict, fail_fast: bool, verbose: b
                 raise ResponseValidationError(
                     errors=verification_result.output('basic')["errors"],
                     url=path_url,
-                    method=operation_data['method'],
+                    method=step_data['method'],
                     status_code=status_code,
                 )
 

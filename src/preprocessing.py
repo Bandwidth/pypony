@@ -53,7 +53,7 @@ def get_operation_coverage(spec: dict, step: dict) -> OperationCoverage:
 
     # Get all operations in the step file
     step_operations = set()
-    for operation in step['operations']:
+    for operation in step['steps']:
         step_operations.add(operation['operation_id'])
 
     return OperationCoverage(

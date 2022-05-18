@@ -10,14 +10,14 @@ properties:
     format: uri
   auth:
     "$ref": "#/$defs/auth"
-  operations:
+  steps:
     type: array
     items:
-      "$ref": "#/$defs/operation"
+      "$ref": "#/$defs/step"
     additionalProperties: false
 required:
 - base_url
-- operations
+- steps
 additionalProperties: false
 
 "$defs":
@@ -32,7 +32,7 @@ additionalProperties: false
     - username
     - password
     additionalProperties: false
-  operation:
+  step:
     type: object
     properties:
       name:

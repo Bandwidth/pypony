@@ -3,7 +3,7 @@ import uuid
 
 import pytest
 
-from src.models import Context, Operation, Request
+from src.models import Context, Step, Request
 from src.models.errors import BaseContextError, EnvironmentVariableError
 
 
@@ -14,21 +14,21 @@ def context():
 
 @pytest.fixture(autouse=True)
 def cleanup(context):
-    context.clear_operations()
+    context.clear_steps()
     yield
-    context.clear_operations()
+    context.clear_steps()
 
 
 def _env(value):
     return "${{ env." + value + " }}"
 
 
-def _operations(value):
-    return "${{ operations." + value + " }}"
+def _steps(value):
+    return "${{ steps." + value + " }}"
 
 
 def test_step_add(context):
-    operation = Operation(
+    step = Step(
         name="createUser",
         request=Request(
             operation_id="createUser", 
@@ -37,15 +37,15 @@ def test_step_add(context):
             status_code=200
         )
     )
-    context.add_operations(operation)
+    context.add_steps(step)
 
-    assert context.operations.createUser == operation
+    assert context.steps.createUser == step
 
 
 def test_step_add_duplicated(context):
     for i in range(5):
-        context.add_operations(
-            Operation(
+        context.add_steps(
+            Step(
                 name="createUser",
                 request=Request(
                     operation_id="createUser",
@@ -56,12 +56,12 @@ def test_step_add_duplicated(context):
             )
         )
 
-    assert len(vars(context.operations)) == 1
+    assert len(vars(context.steps)) == 1
 
 
 def test_step_clear(context):
-    context.add_operations(
-        Operation(
+    context.add_steps(
+        Step(
             name="createUser",
             request=Request(
                 operation_id="createUser",
@@ -71,8 +71,8 @@ def test_step_clear(context):
             )
         )
     )
-    context.add_operations(
-        Operation(
+    context.add_steps(
+        Step(
             name="getUsers",
             request=Request(
                 operation_id="getUsers",
@@ -82,10 +82,10 @@ def test_step_clear(context):
             )
         )
     )
-    assert len(vars(context.operations)) == 2
+    assert len(vars(context.steps)) == 2
 
-    context.clear_operations()
-    assert len(vars(context.operations)) == 0
+    context.clear_steps()
+    assert len(vars(context.steps)) == 0
 
 
 # Expression.evaluate() delegates Context.evaluate()
@@ -122,8 +122,8 @@ def test_evaluate_multiple(context):
 def test_evaluate_url(context):
     user_id = str(uuid.uuid4())
     account_id = str(uuid.uuid4())
-    context.add_operations(
-        Operation(
+    context.add_steps(
+        Step(
             name="createUser", 
             request=Request(
                 operation_id="createUser",
@@ -133,8 +133,8 @@ def test_evaluate_url(context):
             )
         )
     )
-    context.add_operations(
-        Operation(
+    context.add_steps(
+        Step(
             name="createAccount",
             request=Request(
                 operation_id="createAccount",
@@ -148,7 +148,7 @@ def test_evaluate_url(context):
 
     assert (
         context.evaluate(
-            f"/users/{_operations('createUser.request.body.id')}/accounts/{_operations('createAccount.request.body.id')}"
+            f"/users/{_steps('createUser.request.body.id')}/accounts/{_steps('createAccount.request.body.id')}"
         )
         == f"/users/{user_id}/accounts/{account_id}"
     )

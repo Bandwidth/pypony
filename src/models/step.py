@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""operation.py:
+"""step.py:
 
 Encapsulates operation data from the step file, including name, request, response, and schema for easy access.
 """
@@ -14,7 +14,7 @@ from .schema import Schema
 
 
 @dataclass
-class Operation:
+class Step:
     """
     Operations object manages request, response, and schema.
     """
