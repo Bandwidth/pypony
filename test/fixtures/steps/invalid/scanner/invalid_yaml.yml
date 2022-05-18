@@ -1,6 +1,6 @@
 base_url: "https://example.com"
 # invalid yaml on line 2, operations is missing ':'
-operations
+steps
   - name: createPersonSuccessful
     operation_id: createPerson
     method: POST

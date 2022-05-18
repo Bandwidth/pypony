@@ -18,28 +18,28 @@ class Context(metaclass=Singleton):
     The global context object will be used as a singleton across the entire system.
     """
 
-    _operations = SimpleNamespace()
+    _steps = SimpleNamespace()
 
     @property
-    def operations(self):
-        return self._operations
+    def steps(self):
+        return self._steps
 
-    def add_operations(self, operation):
+    def add_steps(self, step):
         """
-        Adds a Step object as an attribute of `self.operations`
+        Adds a Step object as an attribute of `self.steps`
 
         Args:
-            operation (Operation): the Operation object to add
+            step (Step): the Step object to add
         """
 
-        setattr(self.operations, operation.name, operation)
+        setattr(self.steps, step.name, step)
 
-    def clear_operations(self):
+    def clear_steps(self):
         """
-        Clears all Operations objects from attributes of `self.operations`
+        Clears all Steps objects from attributes of `self.steps`
         """
 
-        self._operations = SimpleNamespace()
+        self._steps = SimpleNamespace()
 
     # noinspection PyMethodMayBeStatic
     def evaluate(self, expression: any) -> any:
@@ -87,7 +87,7 @@ class Context(metaclass=Singleton):
                 result = os.environ.get(value.split(".", 1)[1])
                 if result is None:
                     raise EnvironmentVariableError(value)
-            elif base == "operations":
+            elif base == "steps":
                 try:
                     result = eval("self." + value)
                 except AttributeError as e:

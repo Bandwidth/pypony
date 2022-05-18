@@ -1,6 +1,6 @@
 coverage_threshold: 0.0
 base_url: http://127.0.0.1:8000
-operations:
+steps:
   - name: coveredOperation
     operation_id: coveredOperation
     method: GET

@@ -27,4 +27,4 @@ def test_parse_invalid_specs(invalid_specs: list[str]):
 def test_parse_valid_steps(valid_steps: list[str]):
     for valid_step in valid_steps:
         parsed_steps = parse_steps(valid_step)
-        assert {"base_url", "operations"}.issubset(parsed_steps.keys())
+        assert {"base_url", "steps"}.issubset(parsed_steps.keys())
