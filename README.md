@@ -7,5 +7,5 @@ PyPony is a Python CLI tool for contract testing OpenAPI specifications against 
 ## Documentation
 
 - [Source Code Docs](https://fuzzy-journey-0f130eaf.pages.github.io/)
-- [Developer's Guide](https://fuzzy-journey-0f130eaf.pages.github.io/docs/developers/)
-- [User's Guide](https://fuzzy-journey-0f130eaf.pages.github.io/docs/users/)
+- [User's Guide](https://fuzzy-journey-0f130eaf.pages.github.io/docs/users-guide/)
+- [Developer's Guide](https://fuzzy-journey-0f130eaf.pages.github.io/docs/developers-guide/)
