@@ -19,6 +19,7 @@ setup(
     py_modules=['pypony', 'src'],
     install_requires=requirements,
     packages=find_packages(exclude=["website", "test"]),
+    include_package_data=True,
     entry_points='''
         [console_scripts]
         pypony=pypony:cli

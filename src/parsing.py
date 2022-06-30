@@ -71,7 +71,8 @@ def parse_steps(step_file_path: str) -> dict:
     """
 
     try:
-        with open("./src/steps_schema.yml", "r") as step_schema_file:
+        steps_schema_path = os.path.join(os.path.dirname(__file__), "steps_schema.yml")
+        with open(steps_schema_path, "r") as step_schema_file:
             steps_schema = yaml.safe_load(step_schema_file.read())
     except FileNotFoundError as e:
         raise FileNotFoundError("Steps schema file not found") from e
