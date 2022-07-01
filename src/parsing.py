@@ -3,7 +3,7 @@ import json
 
 import yaml
 from jsonschema import validate, ValidationError
-from rich import print, inspect
+from rich import print
 
 from .errors import InvalidFileError
 
@@ -46,7 +46,7 @@ def parse_spec_file(spec_file_path: str) -> dict:
                 raise InvalidFileError(extension=os.path.splitext(spec_file_path)[1])
 
             # TODO: Resolve all $refs 
-            
+
             validate(instance=spec, schema=open_api_schema)
     
     except ValidationError as e:

@@ -1,3 +1,4 @@
+from glob import glob
 from .preprocessing import evaluate
 from .models import Step
 # from .verify import verify
@@ -12,9 +13,8 @@ def make_requests(steps: dict, spec: dict, fail_fast: bool, verbose: bool):
     global_auth: dict = None
     if 'auth' in steps.keys():
         global_auth: dict = {}
-        for key in steps["auth"]:
-            print(key)
-            # global_auth.update({"ligma", "1"})
+        for key, value in steps["auth"].items():
+            global_auth[key] = evaluate(value)
     else:
         global_auth = None
     
@@ -27,7 +27,6 @@ def make_requests(steps: dict, spec: dict, fail_fast: bool, verbose: bool):
         for method in spec['paths'][path]:
             op_id = spec['paths'][path][method]['operationId']
             operation_responses[op_id] = spec['paths'][path][method]['responses']
-    inspect(operation_responses)
 
     for s in steps:
         step = Step(s)
