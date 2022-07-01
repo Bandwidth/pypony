@@ -4,6 +4,10 @@
 
 PyPony is a magical Python CLI tool for contract testing OpenAPI specifications against the live APIs that they define.  
 
+## Supported OAS Features
+
+<!--Table here-->
+
 ## Install Locally
 
 ```sh
