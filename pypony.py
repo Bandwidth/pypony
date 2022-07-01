@@ -13,10 +13,10 @@ def cli():
 
 @cli.command()
 @click.option(
-    "-sp", "--spec_file", required=True, type=click.STRING, envvar="INPUT_SPEC_FILE"
+    "-st", "--step_file", required=True, type=click.STRING, envvar="INPUT_STEP_FILE"
 )
 @click.option(
-    "-st", "--step_file", required=True, type=click.STRING, envvar="INPUT_STEP_FILE"
+    "-sp", "--spec_file", required=True, type=click.STRING, envvar="INPUT_SPEC_FILE"
 )
 @click.option(
     "-ff", "--fail-fast", is_flag=True
