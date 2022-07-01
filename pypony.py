@@ -1,8 +1,9 @@
 import sys
-import click
 import traceback
 
-from src.validate import verify_api
+import click
+
+from src.validate import validate
 
 
 @click.group()
@@ -15,7 +16,7 @@ def cli():
     "-sp", "--spec_file", required=True, type=click.STRING, envvar="INPUT_SPEC_FILE"
 )
 @click.option(
-    "-st" "--step_file", required=True, type=click.STRING, envvar="INPUT_STEP_FILE"
+    "-st", "--step_file", required=True, type=click.STRING, envvar="INPUT_STEP_FILE"
 )
 @click.option(
     "-ff", "--fail-fast", is_flag=True
@@ -23,9 +24,9 @@ def cli():
 @click.option(
     "-v", "--verbose", is_flag=True
 )
-def main(spec_file, step_file, fail_fast, verbose):
+def main(step_file, spec_file, fail_fast, verbose):
     try:
-        verify_api(spec_file, step_file, fail_fast, verbose)
+        validate(step_file, spec_file, fail_fast, verbose)
     except BaseException as e:
         if verbose:
             print(traceback.format_exc())

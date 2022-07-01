@@ -1,63 +1,46 @@
-# -*- coding: utf-8 -*-
-"""preprocessing.py
+from .errors import (
+    InsufficientCoverageError,
+    UndocumentedOperationError,
+)
 
-This module contains functions to ensure compatibility for a step file and corresponding spec file.
-It will check that every method referenced in the step file exists in the spec file.
-"""
-from rich import print
-from dataclasses import dataclass
+def get_operation_coverage(steps: dict, spec: dict):
+    steps_operations = set()
+    for operation in steps['steps']:
+        steps_operations.add(operation['operation_id'])
 
-# TODO: refactor to `OperationCoverage`
-@dataclass
-class OperationCoverage:
-    """
-    Dictionary classifying operations into three categories:
-        - covered: operations that are called in the step file and documented in the spec file
-        - uncovered: operations that are in the spec file but not called in the step file
-        - undocumented: operations that are called in the step file but not documented in the spec file
-    """
-
-    covered: set[str]
-    uncovered: set[str]
-    undocumented: set[str]
-
-    def has_undocumented_operations(self) -> bool:
-        return len(self.undocumented) > 0
-
-    def proportion_covered(self) -> float:
-        return len(self.covered) / (
-            len(self.covered) + len(self.uncovered) + len(self.undocumented)
-        )
-
-
-# TODO: refactor to `get_operation_coverage`
-def get_operation_coverage(spec: dict, step: dict) -> OperationCoverage:
-    """
-    Given a parsed spec and step file, determine the operations in the spec that are achieved by the step file.
-
-    Args:
-        spec (dict): specification file parsed as dict
-        step (dict): step file parsed as dict
-
-    Returns:
-        OperationCoverage: A dataclass containing the operations covered, uncovered, and undocumented
-    """
-    print('---Checking Operation Coverage---')
-
-    # Get all operations in the spec file
     spec_operations = set()
     for path in spec['paths']:
         for method in spec['paths'][path]:
             op_id = spec['paths'][path][method]['operationId']
             spec_operations.add(op_id)
+    
+    return steps_operations, spec_operations
 
-    # Get all operations in the step file
-    step_operations = set()
-    for operation in step['steps']:
-        step_operations.add(operation['operation_id'])
+def check_operation_coverage(steps: dict, spec: dict):
+    steps_operations, spec_operations = get_operation_coverage(steps, spec)
+    
+    covered=spec_operations & steps_operations
+    uncovered=spec_operations - steps_operations
+    undocumented=steps_operations - spec_operations
 
-    return OperationCoverage(
-        covered=spec_operations & step_operations,
-        uncovered=spec_operations - step_operations,
-        undocumented=step_operations - spec_operations,
-    )
+    proportion_covered = len(covered) / (len(covered) + len(uncovered) + len(undocumented))
+    
+    if len(undocumented) > 0:
+        has_undocumented_operations = True 
+    else:
+        has_undocumented_operations = False 
+
+    # If any undocumented operations, immediately halt
+    print("--Checking for Uncovered Operations--")
+    if has_undocumented_operations:
+        raise UndocumentedOperationError(undocumented)
+
+    # Check if operation coverage meets threshold
+    print("--Validating Coverage Threshold--")
+    if "coverage_threshold" in steps:
+        target_coverage: float = steps["coverage_threshold"]
+
+        if proportion_covered < target_coverage:
+            raise InsufficientCoverageError(
+                proportion_covered, target_coverage, uncovered
+            )

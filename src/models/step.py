@@ -1,34 +1,77 @@
-# -*- coding: utf-8 -*-
-"""step.py:
+import os
+import re
 
-Encapsulates operation data from the step file, including name, request, response, and schema for easy access.
-"""
+from src.models.request import Request
+from src.errors import BaseContextError, EvaluationError, EnvironmentVariableError
 
-from dataclasses import dataclass
-
-from jschon.jsonschema import Scope
-
-from .request import Request
-from .response import Response
-from .schema import Schema
-
-
-@dataclass
 class Step:
-    """
-    Operations object manages request, response, and schema.
-    """
+    def __init__(
+        self, 
+        *step: dict,
+        **kwargs
+    ):
+        for dictionary in step:
+            for key in dictionary:
+                setattr(self, key, self.evaluate(dictionary[key]))
+        for key in kwargs:
+            setattr(self, key, self.evaluate(kwargs[key]))
 
-    name: str
-    request: Request = None
-    response: Response = None
-    schema: Schema = None
-
-    def verify(self) -> Scope:
+    
+    def evaluate(self, expression: any) -> any:
         """
-        Verify the response against the schema.
-
+        Recursively evaluate nested expressions using depth-first search.
+        Eventually the evaluation result as a string is returned.
+        The only allowed base contexts are "env" and "operations".
+        Args:
+            expression (str): Object of any type that may contain expression(s)
+        Raises:
+            EnvironmentVariableError:
+                if the expression represents an environment variable but it cannot be found
         Returns:
-            Evaluate the response body and return the complete evaluation result tree.
+            The evaluated result as a string if there is any expression, original value otherwise.
         """
-        return self.schema.evaluate(self.response.json())
+
+        if expression is None:
+            return
+
+        # Evaluate each value in a dictionary
+        if isinstance(expression, dict):
+            return dict(map(lambda x: (x[0], self.evaluate(x[1])), expression.items()))
+
+        # Evaluate each element in a list
+        if isinstance(expression, list):
+            return list(map(lambda x: self.evaluate(x), expression))
+
+        if not isinstance(expression, str):
+            return expression
+
+        matches: list[str] = re.findall(r"(\${{[^/}]*}})", expression)
+        if not matches:
+            return expression
+
+        for match in matches:
+            value = match.removeprefix("${{").removesuffix("}}").strip()
+            base = value.split(".").pop(0)
+
+            if base == "env":
+                # Only split at the first dot
+                result = os.environ.get(value.split(".", 1)[1])
+                if result is None:
+                    raise EnvironmentVariableError(value)
+            elif base == "steps":
+                try:
+                    result = eval("self." + value)
+                except AttributeError as e:
+                    raise EvaluationError(e)
+            else:
+                raise BaseContextError(base)
+
+            # Only replace the first occurrence
+            expression = expression.replace(match, str(result), 1)
+
+        return expression
+    
+    
+    def construct_request(self, base_url):
+        print(self.auth["username"])
+        return Request

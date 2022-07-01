@@ -16,8 +16,8 @@ properties:
       "$ref": "#/$defs/step"
     additionalProperties: false
 required:
-- base_url
-- steps
+  - base_url
+  - steps
 additionalProperties: false
 
 "$defs":
@@ -29,8 +29,8 @@ additionalProperties: false
       password:
         type: string
     required:
-    - username
-    - password
+      - username
+      - password
     additionalProperties: false
   step:
     type: object
@@ -44,7 +44,7 @@ additionalProperties: false
       method:
         type: string
         pattern: "(?i)^(get|put|post|delete|patch)$"
-      url:
+      path:
         type: string
         # pattern: "^(/\\w*)+$" TODO: Some URL validation here
       headers:
@@ -60,9 +60,9 @@ additionalProperties: false
         minimum: 100
         maximum: 600
     required:
-    - name
-    - operation_id
-    - method
-    - url
-    - status_code
+      - name
+      - operation_id
+      - method
+      - path
+      - status_code
     additionalProperties: false
