@@ -4,9 +4,10 @@ id: https://spec.openapis.org/oas/3.0/schema/2021-09-28
 description: The description of OpenAPI v3.0.x documents, as defined by https://spec.openapis.org/oas/v3.0.3
 type: object
 required:
-- openapi
-- info
-- paths
+  - openapi
+  - info
+  - paths
+  - servers
 properties:
   openapi:
     type: string

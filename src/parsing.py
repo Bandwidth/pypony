@@ -3,7 +3,7 @@ import json
 
 import yaml
 from jsonschema import validate, ValidationError
-from rich import print
+from rich import print, inspect
 
 from .errors import InvalidFileError
 
@@ -21,7 +21,7 @@ def parse_steps_file(step_file_path: str) -> dict:
             validate(instance=steps, schema=steps_schema)
     
     except ValidationError as e:
-        raise ValidationError(f"Steps file has the following syntax errors: {e} ") from e
+        raise ValidationError(f"Steps file has the following syntax errors: {e.message} ") from e
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Steps file {step_file_path} not found") from e
    
@@ -34,7 +34,7 @@ def parse_spec_file(spec_file_path: str) -> dict:
         with open(open_api_schema_path, "r") as open_api_schema_file:
             open_api_schema = yaml.safe_load(open_api_schema_file.read())
     except FileNotFoundError as e:
-        raise FileNotFoundError("Steps schema file not found") from e
+        raise FileNotFoundError("API Spec schema file not found") from e
     
     try: 
         with open(spec_file_path, "r") as open_api_file:
@@ -44,10 +44,13 @@ def parse_spec_file(spec_file_path: str) -> dict:
                 spec = yaml.safe_load(open_api_file.read())
             else: 
                 raise InvalidFileError(extension=os.path.splitext(spec_file_path)[1])
+
+            # TODO: Resolve all $refs 
+            
             validate(instance=spec, schema=open_api_schema)
     
     except ValidationError as e:
-        raise ValidationError(f"API Spec file has the following syntax errors: {e} ") from e
+        raise ValidationError(f"API Spec file has the following syntax errors: {e.message} ") from e
     except FileNotFoundError as e:
         raise FileNotFoundError(f"API Spec file {spec_file_path} not found") from e
     
