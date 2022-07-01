@@ -21,7 +21,7 @@ class Step:
         """
         Recursively evaluate nested expressions using depth-first search.
         Eventually the evaluation result as a string is returned.
-        The only allowed base contexts are "env" and "operations".
+        The only allowed base contexts are "env" and "steps".
         Args:
             expression (str): Object of any type that may contain expression(s)
         Raises:
@@ -73,5 +73,4 @@ class Step:
     
     
     def construct_request(self, base_url):
-        print(self.auth["username"])
-        return Request
+        return Request(base_url=base_url)

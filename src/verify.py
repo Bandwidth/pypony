@@ -1,10 +1,10 @@
 # TODO: Things to Verify:
-#  request formatted properly in the step file 
-#  request expexted in API spec is valid
-#  response expected in step file is valid 
-#  response expected in API spec is valid 
 #  
+#  step_matches_spec
+#  request_matches_api
+#  response_matches_spec
+#  repsponse_matches_step
 
-
-def verify(step_context, request, response, fail_fast):
+def step_matches_spec(step_context, request, response, fail_fast):
     return
+

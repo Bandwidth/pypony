@@ -4,8 +4,11 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 class Request:
-    def __init__():
-        return
+    def __init__(
+        self,
+        base_url
+    ):
+        self.base_url = base_url
 
     def send_request():
         return Response
