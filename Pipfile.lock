@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "57a6d50a635959b1f6cb8f3d883df05b202b69ba3bf5a7846b5e6edc2f07a519"
+            "sha256": "d600a20d847727851cbdd34cd733a3d53f7f615f0e1552d72fa453c58ea1a540"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -70,6 +70,22 @@
             ],
             "index": "pypi",
             "version": "==4.6.1"
+        },
+        "openapi-schema-validator": {
+            "hashes": [
+                "sha256:2c64907728c3ef78e23711c8840a423f0b241588c9ed929855e4b2d1bb0cf5f2",
+                "sha256:9bae709212a19222892cabcc60cafd903cbf4b220223f48583afa3c0e3cc6fc4"
+            ],
+            "markers": "python_version >= '3.7' and python_version < '4'",
+            "version": "==0.2.3"
+        },
+        "openapi-spec-validator": {
+            "hashes": [
+                "sha256:06900ac4d546a1df3642a779da0055be58869c598e3042a2fef067cfd99d04d0",
+                "sha256:97f258850afc97b048f7c2653855e0f88fa66ac103c2be5077c7960aca2ad49a"
+            ],
+            "index": "pypi",
+            "version": "==0.4.0"
         },
         "pygments": {
             "hashes": [
@@ -160,6 +176,14 @@
             ],
             "index": "pypi",
             "version": "==12.4.4"
+        },
+        "setuptools": {
+            "hashes": [
+                "sha256:990a4f7861b31532871ab72331e755b5f14efbe52d336ea7f6118144dd478741",
+                "sha256:c1848f654aea2e3526d17fc3ce6aeaa5e7e24e66e645b5be2171f3f6b4e5a178"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==62.6.0"
         },
         "urllib3": {
             "hashes": [

@@ -9,6 +9,7 @@ click = "*"
 jsonschema = "*"
 pyyaml = "*"
 requests = "*"
+openapi-spec-validator = "*"
 
 [dev-packages]
 
