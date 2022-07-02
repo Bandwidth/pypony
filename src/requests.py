@@ -1,4 +1,3 @@
-from glob import glob
 from .preprocessing import evaluate
 from .models import Step
 # from .verify import verify
@@ -31,5 +30,7 @@ def make_requests(steps: dict, spec: dict, fail_fast: bool, verbose: bool):
     for s in steps:
         step = Step(s)
         request = step.construct_request(base_url, global_auth)
-        # inspect(request)
-        # response = request.send()
+        response = request.send()
+        inspect(step)
+        inspect(request)
+        inspect(response)

@@ -1,6 +1,8 @@
 from src.models.request import Request
 from src.preprocessing import evaluate
 
+from rich import inspect
+
 class Step:
     def __init__(
         self, 
@@ -38,11 +40,12 @@ class Step:
     
     def construct_request(self, base_url, global_auth):
         return Request(
-            base_url=base_url,
-            path=self.path,
-            params=self.params,
-            headers=self.headers,
-            global_auth=global_auth,
-            auth=self.auth,
-            body=self.body
+                base_url=base_url,
+                method=self.method,
+                path=self.path,
+                params=self.params,
+                headers=self.headers,
+                global_auth=global_auth,
+                auth=self.auth,
+                body=self.body
             )
