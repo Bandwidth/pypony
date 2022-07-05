@@ -3,7 +3,7 @@ certifi==2022.6.15
 charset-normalizer==2.1.0
 click==8.1.3
 commonmark==0.9.1
-idna==3.3; python_version >= '3.5'
+idna==3.3
 json-ref-dict==0.7.1
 jsonpointer==2.3
 jsonschema==4.6.1
