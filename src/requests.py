@@ -27,10 +27,11 @@ def make_requests(steps: dict, spec: dict, fail_fast: bool, verbose: bool):
             op_id = spec['paths'][path][method]['operationId']
             operation_responses[op_id] = spec['paths'][path][method]['responses']
 
+    inspect(operation_responses)
     for s in steps:
         step = Step(s)
         request = step.construct_request(base_url, global_auth)
         response = request.send()
-        inspect(step)
-        inspect(request)
-        inspect(response)
+        # inspect(step)
+        # inspect(request)
+        # inspect(response)

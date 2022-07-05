@@ -3,9 +3,10 @@ import json
 
 import yaml
 from jsonschema import validate, ValidationError
+from json_ref_dict import materialize, RefDict
 from openapi_spec_validator import validate_spec
 from openapi_spec_validator.exceptions import OpenAPIValidationError
-from rich import print
+from rich import print, inspect
 
 from .errors import InvalidFileError
 
@@ -32,17 +33,8 @@ def parse_steps_file(step_file_path: str) -> dict:
 
 def parse_spec_file(spec_file_path: str) -> dict:
     try: 
-        with open(spec_file_path, "r") as open_api_file:
-            if spec_file_path.lower().endswith('.json'): 
-                spec = json.loads(open_api_file.read())
-            elif spec_file_path.lower().endswith('.yml') or spec_file_path.lower().endswith('.yaml'):
-                spec = yaml.safe_load(open_api_file.read())
-            else: 
-                raise InvalidFileError(extension=os.path.splitext(spec_file_path)[1])
-
-            # TODO: Resolve all $refs 
-
-            validate_spec(spec)
+        spec = materialize(RefDict(spec_file_path))
+        validate_spec(spec)
     
     except OpenAPIValidationError as e:
         raise OpenAPIValidationError(f"API Spec file has the following syntax errors: {e.message} ") from e
