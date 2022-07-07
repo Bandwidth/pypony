@@ -70,3 +70,14 @@ class InvalidExpressionError(Exception):
     """
     def __init__(self, value):
         super().__init__(f"invalid expression: {value}")
+
+
+class UnsupportedSchemaError(Exception):
+    """
+    Raises when a request body schema is unsupported.
+    """
+    def __init__(self, value):
+        super().__init__(f"{value}\n"
+                         f"We do not currently support multiple request/response bodies or content types other than:\n"
+                         f"- application/json\n"
+                         f"- application/octet-stream")

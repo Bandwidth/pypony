@@ -8,6 +8,7 @@ from .errors import (
     EvaluationError, 
     EnvironmentVariableError
 )
+from rich import print
 
 def get_operation_coverage(steps: dict, spec: dict):
     steps_operations = set()
@@ -22,12 +23,13 @@ def get_operation_coverage(steps: dict, spec: dict):
     
     return steps_operations, spec_operations
 
+
 def check_operation_coverage(steps: dict, spec: dict):
     steps_operations, spec_operations = get_operation_coverage(steps, spec)
     
-    covered=spec_operations & steps_operations
-    uncovered=spec_operations - steps_operations
-    undocumented=steps_operations - spec_operations
+    covered = spec_operations & steps_operations
+    uncovered = spec_operations - steps_operations
+    undocumented = steps_operations - spec_operations
 
     proportion_covered = len(covered) / (len(covered) + len(uncovered) + len(undocumented))
     
@@ -51,7 +53,10 @@ def check_operation_coverage(steps: dict, spec: dict):
                 proportion_covered, target_coverage, uncovered
             )
 
-def evaluate(expression: any) -> any:
+    print("[bold green]--Coverage Threshold Met--[/bold green]")
+
+
+def evaluate(expression: any, steps={}) -> any:
     """
     Recursively evaluate nested expressions using depth-first search.
     Eventually the evaluation result as a string is returned.
@@ -70,11 +75,11 @@ def evaluate(expression: any) -> any:
 
     # Evaluate each value in a dictionary
     if isinstance(expression, dict):
-        return dict(map(lambda x: (x[0], evaluate(x[1])), expression.items()))
+        return dict(map(lambda x: (x[0], evaluate(x[1], steps)), expression.items()))
 
     # Evaluate each element in a list
     if isinstance(expression, list):
-        return list(map(lambda x: evaluate(x), expression))
+        return list(map(lambda x: evaluate(x, steps), expression))
 
     if not isinstance(expression, str):
         return expression
@@ -93,8 +98,13 @@ def evaluate(expression: any) -> any:
             if result is None:
                 raise EnvironmentVariableError(value)
         elif base == "steps":
+            value_array = value.split(".")
+            value_dict = f"{value_array[0]}['{value_array[1]}']['{value_array[2]}'].{value_array[3]}"
+            for idx, val in enumerate(value_array):
+                if idx > 3:
+                    value_dict += f"['{val}']"
             try:
-                result = eval("self." + value)
+                result = eval(value_dict)
             except AttributeError as e:
                 raise EvaluationError(e)
         else:
