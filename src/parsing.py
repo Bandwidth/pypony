@@ -8,7 +8,7 @@ from openapi_spec_validator import validate_spec
 from openapi_spec_validator.exceptions import OpenAPIValidationError
 from rich import print, inspect
 
-from .errors import InvalidFileError
+from .errors import *
 
 def parse_steps_file(step_file_path: str) -> dict:
     try:
@@ -31,7 +31,8 @@ def parse_steps_file(step_file_path: str) -> dict:
     print("[bold green]--Successfully Validated Steps File--[/bold green]")
     return steps
 
-def parse_spec_file(spec_file_path: str) -> dict:
+
+def parse_spec_file(spec_file_path: str) -> tuple:
     try: 
         spec = materialize(RefDict(spec_file_path))
         validate_spec(spec)
@@ -40,6 +41,50 @@ def parse_spec_file(spec_file_path: str) -> dict:
         raise OpenAPIValidationError(f"API Spec file has the following syntax errors: {e.message} ") from e
     except FileNotFoundError as e:
         raise FileNotFoundError(f"API Spec file {spec_file_path} not found") from e
-    
+
+    # Create operation schemas dict for easier parsing
+    operation_schemas: dict = {}
+    for path in spec['paths']:
+        for method in spec['paths'][path]:
+            op_id = spec['paths'][path][method]['operationId']
+            operation = spec['paths'][path][method]
+            operation_schemas[op_id] = {}
+
+            # Parse and Validate Request Bodies
+            if 'requestBody' in operation.keys():
+                if len(operation['requestBody']['content']) > 1:
+                    raise UnsupportedSchemaError(f"There are too many request body content types for"
+                                                        f" the operation: {op_id}")
+                if 'application/json' in operation['requestBody']['content'].keys():
+                    operation_schemas[op_id]['requestBody'] = \
+                        operation['requestBody']['content']['application/json']['schema']
+                elif 'application/octet-stream' in operation['requestBody']['content'].keys():
+                    operation_schemas[op_id]['requestBody'] = \
+                        operation['requestBody']['content']['application/octet-stream']['schema']
+                else:
+                    raise UnsupportedSchemaError(f"request body content type: "
+                                                 f"{list(operation['requestBody']['content'].keys())[0]}"
+                                                 f" unsupported for the operation: {op_id}")
+
+            # Parse and Validate Response Bodies
+            operation_schemas[op_id]['responses'] = {}
+            for status_code in operation['responses'].keys():
+                if 'content' in operation['responses'][status_code].keys():
+                    if len(operation['responses'][status_code]['content']) > 1:
+                        raise UnsupportedSchemaError(f"There are too many response body content types for"
+                                                     f" the operation: {op_id}")
+                    if 'application/json' in operation['responses'][status_code]['content'].keys():
+                        operation_schemas[op_id]['responses'][status_code] = \
+                            operation['responses'][status_code]['content']['application/json']['schema']
+                    elif 'application/octet-stream' in operation['responses'][status_code]['content'].keys():
+                        operation_schemas[op_id]['responses'][status_code] = \
+                            operation['responses'][status_code]['content']['application/octet-stream']['schema']
+                    else:
+                        raise UnsupportedSchemaError(f"response body content type: "
+                                                     f"{list(operation['responses'][status_code]['content'].keys())[0]}"
+                                                     f" unsupported for the operation: {op_id}")
+                else:
+                    operation_schemas[op_id]['responses'][status_code] = operation['responses'][status_code]
+
     print("[bold green]--Successfully Validated Spec File--[/bold green]")
-    return spec
+    return spec, operation_schemas

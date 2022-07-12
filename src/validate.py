@@ -1,6 +1,7 @@
 from .parsing import parse_steps_file, parse_spec_file
 from .preprocessing import check_operation_coverage
 from .requests import make_requests
+# from .verify import verify_request
 
 def validate(step_file_path: str, spec_file_path: str, fail_fast: bool = False, verbose: bool = False):
     
@@ -9,11 +10,12 @@ def validate(step_file_path: str, spec_file_path: str, fail_fast: bool = False, 
     steps = parse_steps_file(step_file_path)
     
     print("--Validating Spec--")
-    spec = parse_spec_file(spec_file_path)
+    spec, operation_schemas = parse_spec_file(spec_file_path)
 
-    # Validate that desired coverage threshold is met (if present) 
+    # Validate that desired coverage threshold is met (if present)
     check_operation_coverage(steps, spec)
 
-    make_requests(steps, spec, fail_fast, verbose)
+    print("--Making Requests--")
+    make_requests(steps, operation_schemas, fail_fast, verbose)
 
 

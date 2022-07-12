@@ -3,13 +3,15 @@ from src.preprocessing import evaluate
 
 from rich import inspect
 
+
 class Step:
     def __init__(
         self, 
         step: dict,
+        steps: dict,
     ):
         for key in step:
-            step[key] = evaluate(step[key])
+            step[key] = evaluate(step[key], steps)
         
         self.name = step['name']
         self.operation_id = step['operation_id']
@@ -26,6 +28,9 @@ class Step:
             self.body = step['body'] 
         else:
             self.body = None
+
+        if 'raw_body' in step:
+            self.body = step['raw_body']
         
         if 'params' in step:
             self.params = step['params'] 
@@ -36,8 +41,7 @@ class Step:
             self.auth = step['auth'] 
         else:
             self.auth = None
-        
-    
+
     def construct_request(self, base_url, global_auth):
         return Request(
                 base_url=base_url,
