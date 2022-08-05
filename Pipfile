@@ -13,6 +13,10 @@ openapi-spec-validator = "*"
 json-ref-dict = "*"
 
 [dev-packages]
+pytest = "*"
+pyhamcrest = "*"
+rich = "*"
+black = "*"
 
 [requires]
 python_version = "3.10"
