@@ -1,0 +1,27 @@
+coverage_threshold: .9
+base_url: https://example.com
+steps:
+  - name: createPersonSuccessful
+    operation_id: createPerson
+    method: POST
+    path: /person
+    headers:
+      Content-Type: application/json
+    body:
+      name: John Doe
+      age: 42
+    auth:
+      username: some_user
+      password: some_password
+    status_code: 200
+  
+  - name: fetchPersonInfoSuccessful
+    operation_id: fetchPersonInfo
+    method: GET
+    path: /person/${{ operations.createPersonSuccessful.response.body.id }}
+    headers:
+      Content-Type: application/json
+    auth:
+      username: some_user
+      password: some_password
+    status_code: 200
