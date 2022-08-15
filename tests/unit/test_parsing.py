@@ -1,8 +1,6 @@
 import pytest
 from hamcrest import assert_that, is_, has_items, instance_of
 
-from rich import inspect
-
 from src.parsing import *
 
 class TestParsing:
