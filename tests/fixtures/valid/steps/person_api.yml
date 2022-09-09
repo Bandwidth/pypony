@@ -16,7 +16,7 @@ steps:
     status_code: 200
   
   - name: fetchPersonInfoSuccessful
-    operation_id: fetchPersonInfo
+    operation_id: getPerson
     method: GET
     path: /person/${{ operations.createPersonSuccessful.response.body.id }}
     headers:
