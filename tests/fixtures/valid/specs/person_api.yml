@@ -10,11 +10,35 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
+servers:
+  - url: http://example.com
+tags: 
+  - name: People
 paths:
   /person:
+    post:
+      description: Create a new person
+      operationId: createPerson
+      tags:
+        - People
+      responses:
+        "201":
+          description: Successful response
+          content:
+            "application/json":
+              schema:
+                type: integer
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/person"
+  /person/{id}:
     get:
       description: Get a person by ID
       operationId: getPerson
+      tags:
+        - People
       responses:
         "200":
           description: Successful response
@@ -29,21 +53,6 @@ paths:
           required: true
           schema:
             type: integer
-    post:
-      description: Create a new person
-      operationId: createPerson
-      responses:
-        "201":
-          description: Successful response
-          content:
-            "application/json":
-              schema:
-                type: integer
-      requestBody:
-        content:
-          "application/json":
-            schema:
-              $ref: "#/components/schemas/person"
 components:
   schemas:
     person:
