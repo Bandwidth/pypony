@@ -11,12 +11,14 @@ class TestParsing:
 
     invalid_steps_missing_operation_id_file_path="./tests/fixtures/invalid/steps/missing_property.yml"
     invalid_spec_missing_openapi_property_file_path = "./tests/fixtures/invalid/specs/invalid_spec_1.yml"
-   
+
+    test_steps=parse_steps_file(steps_file_path)
+
     def test_parse_steps_file_with_valid_steps(self):
         """Ensure a step file is parsed correctly
         """
         steps = parse_steps_file(self.steps_file_path)
-        
+
         assert_that(steps, is_(instance_of(dict)))
         assert_that(steps, has_items('coverage_threshold', 'base_url', 'steps'))
         assert_that(steps['coverage_threshold'], is_(instance_of(float)))
@@ -45,7 +47,7 @@ class TestParsing:
     def test_parse_valid_spec_file(self):
         """Ensure an OpenAPI document is parsed correctly
         """
-        spec, operation_schemas = parse_spec_file(self.spec_file_path)
+        spec, operation_schemas = parse_spec_file(self.test_steps, self.spec_file_path)
         assert_that(spec, is_(instance_of(dict)))
         # TODO: More tests to assert children are properly formatted
         assert_that(operation_schemas, is_(instance_of(dict)))
@@ -56,4 +58,4 @@ class TestParsing:
             OpenAPIValidationError comes from openapi_spec_validator library
         """
         with pytest.raises(OpenAPIValidationError):
-            spec, operation_schemas = parse_spec_file(self.invalid_spec_missing_openapi_property_file_path)
+            spec, operation_schemas = parse_spec_file(self.test_steps, self.invalid_spec_missing_openapi_property_file_path)

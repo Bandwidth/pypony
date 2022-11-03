@@ -11,14 +11,12 @@ class TestPreProcessing:
     spec_file_path = "./tests/fixtures/valid/specs/person_api.yml"
 
     steps = parse_steps_file(steps_file_path)
-    spec, operation_schemas = parse_spec_file(spec_file_path)
+    spec, operation_schemas = parse_spec_file(steps, spec_file_path)
 
     def test_get_operation_coverage(self):
         step_coverage, spec_coverage = get_operation_coverage(self.steps, self.spec)
-        inspect(step_coverage)
-        inspect(spec_coverage)
         assert_that(step_coverage == spec_coverage)
-    
+
     def test_check_operation_coverage(self):
         check_operation_coverage(self.steps, self.spec)
 
