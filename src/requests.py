@@ -2,7 +2,7 @@ from .preprocessing import evaluate
 from .models import Step
 from .verify import *
 
-from rich import print, print_json, inspect
+from rich import print, print_json
 import json
 
 def make_requests(steps_data: dict, operation_schemas: dict, fail_fast: bool, verbose: bool):
@@ -17,7 +17,7 @@ def make_requests(steps_data: dict, operation_schemas: dict, fail_fast: bool, ve
             global_auth[key] = evaluate(value)
     else:
         global_auth = None
-    
+
     # Get steps list
     steps_data: list = steps_data["steps"]
 
@@ -39,6 +39,10 @@ def make_requests(steps_data: dict, operation_schemas: dict, fail_fast: bool, ve
             verify_request_body(request.body, operation_schemas[s['operation_id']]['requestBody'])
 
         response = request.send()
+        if verbose:
+            print('---Response---')
+            print(f'Status Code: {response.status_code}')
+            print_json(response.data)
 
         response_type = ''
         if 'type' in operation_schemas[s['operation_id']]['responses'][str(s['status_code'])].keys():

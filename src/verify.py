@@ -1,5 +1,5 @@
 from jsonschema import validate, ValidationError
-from rich import print, inspect
+from rich import print
 
 
 def verify_request_body(request, schema):
@@ -20,5 +20,6 @@ def verify_response(response, status_code, schema):
             validate(instance=response.data, schema=schema)
         except ValidationError as e:
             print("[bold red]--Response Validation Failed--[/bold red]")
-            raise ValidationError("There was an issue with the response from the API.") from e
+            print(e)
+            raise ValidationError("There was an issue with the response from the API.")
     return

@@ -1,5 +1,7 @@
 from rich import print
 
+# TODO: Extend jsonschema.ValidationError class
+
 class UndocumentedOperationError(BaseException):
     """
     Raised when the step file contains operations that are not documented in the OpenAPI spec.

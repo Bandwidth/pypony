@@ -30,7 +30,7 @@ class Request:
         if not self.auth:
             if not self.global_auth:
                 self.auth = {'username': '', 'password': ''}
-            else: 
+            else:
                 self.auth=self.global_auth
 
     def send(self):
@@ -40,6 +40,7 @@ class Request:
                 method=self.method,
                 params=self.params,
                 headers=self.headers,
+                # TODO: Beef up this logic to ensure a strict data type (binary/bytes?)
                 data=self.body,
                 auth=HTTPBasicAuth(self.auth['username'], self.auth['password']),
             )

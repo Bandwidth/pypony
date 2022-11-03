@@ -14,11 +14,11 @@ steps:
       username: some_user
       password: some_password
     status_code: 200
-  
+
   - name: fetchPersonInfoSuccessful
     operation_id: getPerson
     method: GET
-    path: /person/${{ operations.createPersonSuccessful.response.body.id }}
+    path: /person/${{ steps.createPersonSuccessful.response.body.id }}
     headers:
       Content-Type: application/json
     auth:
