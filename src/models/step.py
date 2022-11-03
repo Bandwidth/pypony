@@ -1,34 +1,55 @@
-# -*- coding: utf-8 -*-
-"""step.py:
+from src.models.request import Request
+from src.preprocessing import evaluate
 
-Encapsulates operation data from the step file, including name, request, response, and schema for easy access.
-"""
-
-from dataclasses import dataclass
-
-from jschon.jsonschema import Scope
-
-from .request import Request
-from .response import Response
-from .schema import Schema
+from rich import inspect
 
 
-@dataclass
 class Step:
-    """
-    Operations object manages request, response, and schema.
-    """
+    def __init__(
+        self, 
+        step: dict,
+        steps: dict,
+    ):
+        for key in step:
+            step[key] = evaluate(step[key], steps)
+        
+        self.name = step['name']
+        self.operation_id = step['operation_id']
+        self.method = step['method']
+        self.path = step['path']
+        self.status_code = step['status_code']
+        
+        if 'headers' in step:
+            self.headers = step['headers'] 
+        else:
+            self.headers = None
+        
+        if 'body' in step:
+            self.body = step['body'] 
+        else:
+            self.body = None
 
-    name: str
-    request: Request = None
-    response: Response = None
-    schema: Schema = None
+        if 'raw_body' in step:
+            self.body = step['raw_body']
+        
+        if 'params' in step:
+            self.params = step['params'] 
+        else:
+            self.params = None
 
-    def verify(self) -> Scope:
-        """
-        Verify the response against the schema.
+        if 'auth' in step:
+            self.auth = step['auth'] 
+        else:
+            self.auth = None
 
-        Returns:
-            Evaluate the response body and return the complete evaluation result tree.
-        """
-        return self.schema.evaluate(self.response.json())
+    def construct_request(self, base_url, global_auth):
+        return Request(
+                base_url=base_url,
+                method=self.method,
+                path=self.path,
+                params=self.params,
+                headers=self.headers,
+                global_auth=global_auth,
+                auth=self.auth,
+                body=self.body
+            )

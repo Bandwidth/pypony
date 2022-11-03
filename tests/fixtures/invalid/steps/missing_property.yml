@@ -1,0 +1,15 @@
+# no operation_id on the fetchPersonInfoUnsSuccessful operation
+base_url: "https://example.com"
+steps:
+  - name: fetchPersonInfoUnsSuccessful
+    # operation_id: fetchPersonInfo
+    method: GET
+    path: /person
+    params:
+      id: ${{ operations.createPersonSuccessful.response.body.id }}
+    headers:
+      Content-Type: application/json
+    auth:
+      username: some_user
+      password: some_password
+    status_code: 200

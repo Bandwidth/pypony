@@ -1,101 +1,66 @@
-# -*- coding: utf-8 -*-
-"""request.py
+import requests
+from requests.auth import HTTPBasicAuth
+from rich import inspect
+from typing import Union
 
-Request will be sent off to a server to request or query some resource.
-"""
 
-from addict import Dict
-
-from src.models import Context
-
-context = Context()
-
+from src.models.response import Response
 
 class Request:
-    """
-    Request object includes method, url, params, body, headers, and auth data.
-    """
     def __init__(
         self,
-        operation_id: str,
-        status_code: int,
+        base_url: str,
         method: str,
-        url: str,
-        params: dict = None,
-        body: dict = None,
-        headers: dict = None,
-        auth: dict = None,
-        global_auth: dict = None
-
+        path: str,
+        params: dict,
+        headers: dict,
+        global_auth: dict,
+        auth: dict,
+        body: Union[dict, str],
     ):
-        self.operation_id = operation_id
-        self.status_code = status_code
+        self.base_url = base_url
         self.method = method
-        self.url = url
-        self.params = params
-        self.body = body
-        self.headers = headers
-        self.global_auth = global_auth
-        self.auth = auth
+        self.path=path
+        self.params=params
+        self.headers=headers
+        self.global_auth=global_auth
+        self.auth=auth
+        self.body=body
 
-    @property
-    def params(self):
-        return self._params
+        if not self.auth:
+            if not self.global_auth:
+                self.auth = {'username': '', 'password': ''}
+            else:
+                self.auth=self.global_auth
 
-    @params.setter
-    def params(self, value):
-        self._params = Dict(value)
-
-    @property
-    def body(self):
-        return self._body
-
-    @body.setter
-    def body(self, value):
-        self._body = Dict(value)
-
-    @property
-    def headers(self):
-        return self._headers
-
-    @headers.setter
-    def headers(self, value):
-        self._headers = Dict(value)
-
-    @property
-    def auth(self):
-        return self._auth
-
-    @auth.setter
-    def auth(self, value):
-        if value:
-            self._auth = value
-        elif self.global_auth:
-            self._auth = Dict(self.global_auth)
+    def send(self):
+        if type(self.body) == str:
+            r = requests.request(
+                url=self.base_url + self.path,
+                method=self.method,
+                params=self.params,
+                headers=self.headers,
+                # TODO: Beef up this logic to ensure a strict data type (binary/bytes?)
+                data=self.body,
+                auth=HTTPBasicAuth(self.auth['username'], self.auth['password']),
+            )
+            return Response(
+                status_code=r.status_code,
+                headers=r.headers,
+                data=str(r.text)
+            )
         else:
-            self._auth = {"username": "", "password": ""}
+            r = requests.request(
+                    url=self.base_url + self.path,
+                    method=self.method,
+                    params=self.params,
+                    headers=self.headers,
+                    json=self.body,
+                    auth=HTTPBasicAuth(self.auth['username'], self.auth['password']),
+            )
+            return Response(
+                status_code=r.status_code,
+                headers=r.headers,
+                data=str(r.text)
+            )
 
-    @property
-    def global_auth(self):
-        return self._global_auth
-
-    @global_auth.setter
-    def global_auth(self, value):
-        self._global_auth = value
-
-    def evaluate_all(self) -> None:
-        """
-        Evaluates url, params, body, and header in-place.
-
-        Expressions can be either simple or nested:
-
-            /users/${{ steps.createUser.response.body.id }}
-            /users/${{ steps.createUser.response.body.id }}/orders/${{ steps.getOrders.response.body[0].id }}
-        """
-
-        self.url = context.evaluate(self.url)
-
-        # Evaluate all Dict object
-        for name in ("params", "body", "headers", "global_auth",  "auth"):
-            attr = self.__getattribute__(name)
-            self.__setattr__(name, context.evaluate(attr))
