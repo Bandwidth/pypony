@@ -11,6 +11,18 @@ from rich import print, inspect
 from .errors import *
 
 def parse_steps_file(step_file_path: str) -> dict:
+    """Parse a .yml steps file and convert it to a python dictionary
+
+    Args:
+        step_file_path (str): Relative path to steps file
+
+    Raises:
+        FileNotFoundError: Step file not found
+        ValidationError: Step file not valid
+
+    Returns:
+        dict: Step file converted to a python dictionary
+    """
     try:
         steps_schema_path = os.path.join(os.path.dirname(__file__), "steps_schema.yml")
         with open(steps_schema_path, "r") as step_schema_file:
@@ -33,10 +45,23 @@ def parse_steps_file(step_file_path: str) -> dict:
 
 
 def parse_spec_file(spec_file_path: str) -> tuple:
+    """Parse a valid OpenAPI document into a python dictionary
+
+    Args:
+        spec_file_path (str): Relative path to OpenAPI spec file
+
+    Raises:
+        OpenAPIValidationError: Invalid API Definition
+        FileNotFoundError: Spec file not found
+        UnsupportedSchemaError: Schema not supported
+
+    Returns:
+        tuple: Returns a tuple containing two dictionaries - the parsed API spec and 
+            a dictionary with all of the openapi operations for quick reference
+    """
     try: 
         spec = materialize(RefDict(spec_file_path))
         validate_spec(spec)
-    
     except OpenAPIValidationError as e:
         raise OpenAPIValidationError(f"API Spec file has the following syntax errors: {e.message} ") from e
     except FileNotFoundError as e:

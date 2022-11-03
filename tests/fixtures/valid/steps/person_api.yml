@@ -1,10 +1,10 @@
-base_url: "https://example.com"
-# invalid yaml on line 2, operations is missing ':'
-steps
+coverage_threshold: .9
+base_url: https://example.com
+steps:
   - name: createPersonSuccessful
     operation_id: createPerson
     method: POST
-    url: /person
+    path: /person
     headers:
       Content-Type: application/json
     body:
@@ -14,12 +14,11 @@ steps
       username: some_user
       password: some_password
     status_code: 200
-  - name: fetchPersonInfoUnsSuccessful
-    operation_id: fetchPersonInfo
+  
+  - name: fetchPersonInfoSuccessful
+    operation_id: getPerson
     method: GET
-    url: /person
-    params:
-      id: ${{ operations.createPersonSuccessful.response.body.id }}
+    path: /person/${{ operations.createPersonSuccessful.response.body.id }}
     headers:
       Content-Type: application/json
     auth:
