@@ -6,39 +6,39 @@ from rich import inspect
 
 class Step:
     def __init__(
-        self, 
+        self,
         step: dict,
         steps: dict,
     ):
         for key in step:
             step[key] = evaluate(step[key], steps)
-        
+
         self.name = step['name']
         self.operation_id = step['operation_id']
         self.method = step['method']
         self.path = step['path']
         self.status_code = step['status_code']
-        
+
         if 'headers' in step:
-            self.headers = step['headers'] 
+            self.headers = step['headers']
         else:
             self.headers = None
-        
+
         if 'body' in step:
-            self.body = step['body'] 
+            self.body = step['body']
         else:
             self.body = None
 
         if 'raw_body' in step:
             self.body = step['raw_body']
-        
+
         if 'params' in step:
-            self.params = step['params'] 
+            self.params = step['params']
         else:
             self.params = None
 
         if 'auth' in step:
-            self.auth = step['auth'] 
+            self.auth = step['auth']
         else:
             self.auth = None
 
