@@ -2,6 +2,8 @@
 
 [![Unit Tests](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml/badge.svg)](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml)
 
+[![PyPony Logo](PyPony.png)]
+
 PyPony is a 🪄magical🪄 Python CLI tool for contract testing OpenAPI specifications against the live APIs that they define.
 
 ## Supported OAS Features
