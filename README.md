@@ -30,7 +30,7 @@ pypony -st ./my_steps.yml -sp ./my_spec.yml  -v
 |:--------------------:|:------------|
 | '-st', '--step'      | Relative path to step file |
 | '-sp', '--spec'      | Relative path to spec file |
-| '-v', '--verbpse'    | Boolean verbose output (default=`False`) |
+| '-v', '--verbose'    | Boolean verbose output (default=`False`) |
 | '-ff', '--fail-fast' | Option to fail fast if an exception is encountered (default=`False`) | # Coming soon!
 
 ## Step File

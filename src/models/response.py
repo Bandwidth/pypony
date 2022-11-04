@@ -7,7 +7,7 @@ class Response:
         headers: dict,
         data: Union[dict, str],
     ):
-    
+
         self.status_code = status_code
         self.headers = headers
         self.data = data
