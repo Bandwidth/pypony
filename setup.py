@@ -15,7 +15,7 @@ setup(
     author='Bandwidth',
     author_email='letstalk@bandwidth.com',
     url='https://github.com/Bandwidth/pypony/',
-    version='1.0.0b1',
+    version='1.0.0b2',
     py_modules=['pypony', 'src'],
     install_requires=requirements,
     packages=find_packages(exclude=["test"]),

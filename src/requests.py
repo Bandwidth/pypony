@@ -40,9 +40,10 @@ def make_requests(steps_data: dict, operation_schemas: dict, fail_fast: bool, ve
 
         response = request.send()
         if verbose:
-            print('---Response---')
-            print(f'Status Code: {response.status_code}')
-            print_json(response.data)
+            if response.data:
+                print('---Response---')
+                print(f'Status Code: {response.status_code}')
+                print_json(response.data)
 
         response_type = ''
         if 'type' in operation_schemas[s['operation_id']]['responses'][str(s['status_code'])].keys():
