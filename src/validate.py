@@ -1,9 +1,16 @@
 from .parsing import parse_steps_file, parse_spec_file
 from .preprocessing import check_operation_coverage
 from .requests import make_requests
+
 # from .verify import verify_request
 
-def validate(step_file_path: str, spec_file_path: str, fail_fast: bool = False, verbose: bool = False):
+
+def validate(
+    step_file_path: str,
+    spec_file_path: str,
+    fail_fast: bool = False,
+    verbose: bool = False,
+):
 
     # convert step and spec into usable dictionaries
     print("--Validating Steps--")
@@ -17,5 +24,3 @@ def validate(step_file_path: str, spec_file_path: str, fail_fast: bool = False, 
 
     print("--Making Requests--")
     make_requests(steps, operation_schemas, fail_fast, verbose)
-
-
