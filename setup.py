@@ -1,3 +1,4 @@
+import os
 from setuptools import setup, find_packages
 from pathlib import Path
 
@@ -15,7 +16,7 @@ setup(
     author='Bandwidth',
     author_email='letstalk@bandwidth.com',
     url='https://github.com/Bandwidth/pypony/',
-    version='1.0.0b2',
+    version=os.environ['RELEASE_VERSION'],
     py_modules=['pypony', 'src'],
     install_requires=requirements,
     packages=find_packages(exclude=["test"]),

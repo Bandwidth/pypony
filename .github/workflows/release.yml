@@ -8,14 +8,28 @@ on:
 jobs:
   release:
     name: Deploy to PyPI
-    if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'main' }}
+    if: ${{ github.event.release.target_commitish == 'main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Set Release Version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
+
+      - name: Check Release Version Format
+        run: |
+          re=[0-9]+.[0-9]+.[0-9]+((a|b)[0-9]+)?
+          if ! [[ $RELEASE_VERSION =~ $re ]]; then
+            echo 'Tag does not match expected regex pattern for beta releases (v[0-9]+.[0-9]+.[0-9]+((a|b)[0-9]+)?)'
+            echo $RELEASE_VERSION
+            echo 'Please update your tag to match the expected regex pattern'
+            exit 1
+          fi
 
       - name: Deploy to PYPI
         uses: ./.github/actions/deploy
         env:
           PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
