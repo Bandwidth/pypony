@@ -24,8 +24,8 @@ setup(
     install_requires=requirements,
     packages=find_packages(exclude=["test"]),
     include_package_data=True,
-    entry_points='''
+    entry_points="""
         [console_scripts]
         pypony=pypony:cli
-    '''
+    """,
 )

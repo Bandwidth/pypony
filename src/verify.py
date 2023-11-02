@@ -14,7 +14,9 @@ def verify_request_body(request, schema):
 def verify_response(response, status_code, schema):
     if response.status_code != status_code:
         print("[bold red]--Response Validation Failed--[/bold red]")
-        raise ValidationError("HTTP Status Code does not match the expected value from the step file.")
+        raise ValidationError(
+            "HTTP Status Code does not match the expected value from the step file."
+        )
     else:
         try:
             validate(instance=response.data, schema=schema)

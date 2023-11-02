@@ -6,19 +6,20 @@ from .errors import (
     UndocumentedOperationError,
     BaseContextError,
     EvaluationError,
-    EnvironmentVariableError
+    EnvironmentVariableError,
 )
 from rich import print
 
+
 def get_operation_coverage(steps: dict, spec: dict):
     steps_operations = set()
-    for operation in steps['steps']:
-        steps_operations.add(operation['operation_id'])
+    for operation in steps["steps"]:
+        steps_operations.add(operation["operation_id"])
 
     spec_operations = set()
-    for path in spec['paths']:
-        for method in spec['paths'][path]:
-            op_id = spec['paths'][path][method]['operationId']
+    for path in spec["paths"]:
+        for method in spec["paths"][path]:
+            op_id = spec["paths"][path][method]["operationId"]
             spec_operations.add(op_id)
 
     return steps_operations, spec_operations
@@ -31,7 +32,9 @@ def check_operation_coverage(steps: dict, spec: dict):
     uncovered = spec_operations - steps_operations
     undocumented = steps_operations - spec_operations
 
-    proportion_covered = len(covered) / (len(covered) + len(uncovered) + len(undocumented))
+    proportion_covered = len(covered) / (
+        len(covered) + len(uncovered) + len(undocumented)
+    )
 
     if len(undocumented) > 0:
         has_undocumented_operations = True

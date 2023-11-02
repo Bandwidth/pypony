@@ -4,10 +4,11 @@ from hamcrest import assert_that, is_, has_items, instance_of
 from src.parsing import *
 from src.preprocessing import *
 
+
 class TestPreProcessing:
-    """Class for basic unit testing of the preprocessing.py module
-    """
-    steps_file_path="./tests/fixtures/valid/steps/person_api.yml"
+    """Class for basic unit testing of the preprocessing.py module"""
+
+    steps_file_path = "./tests/fixtures/valid/steps/person_api.yml"
     spec_file_path = "./tests/fixtures/valid/specs/person_api.yml"
 
     steps = parse_steps_file(steps_file_path)

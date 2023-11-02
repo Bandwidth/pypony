@@ -1,5 +1,6 @@
 from typing import Union
 
+
 class Response:
     def __init__(
         self,

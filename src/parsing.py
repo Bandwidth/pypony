@@ -10,6 +10,7 @@ from rich import print
 
 from .errors import *
 
+
 def parse_steps_file(step_file_path: str) -> dict:
     """Parse a .yml steps file and convert it to a python dictionary
 
@@ -36,7 +37,9 @@ def parse_steps_file(step_file_path: str) -> dict:
             validate(instance=steps, schema=steps_schema)
 
     except ValidationError as e:
-        raise ValidationError(f"Steps file has the following syntax errors: {e.message} ") from e
+        raise ValidationError(
+            f"Steps file has the following syntax errors: {e.message} "
+        ) from e
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Steps file {step_file_path} not found") from e
 
@@ -63,63 +66,102 @@ def parse_spec_file(steps: dict, spec_file_path: str) -> tuple:
         spec = materialize(RefDict(spec_file_path))
         validate_spec(spec)
     except OpenAPIValidationError as e:
-        raise OpenAPIValidationError(f"API Spec file has the following syntax errors: {e.message} ") from e
+        raise OpenAPIValidationError(
+            f"API Spec file has the following syntax errors: {e.message} "
+        ) from e
     except FileNotFoundError as e:
         raise FileNotFoundError(f"API Spec file {spec_file_path} not found") from e
 
     # Get list of steps operationIds
     steps_opertaion_id_list = []
-    for step in steps['steps']:
-        steps_opertaion_id_list.append(step['operation_id'])
+    for step in steps["steps"]:
+        steps_opertaion_id_list.append(step["operation_id"])
 
     # Create operation schemas dict for easier parsing
     operation_schemas: dict = {}
-    for path in spec['paths']:
-        for method in spec['paths'][path]:
-            op_id = spec['paths'][path][method]['operationId']
+    for path in spec["paths"]:
+        for method in spec["paths"][path]:
+            op_id = spec["paths"][path][method]["operationId"]
             if op_id in steps_opertaion_id_list:
-                operation = spec['paths'][path][method]
+                operation = spec["paths"][path][method]
                 operation_schemas[op_id] = {}
 
                 # Parse and Validate Request Bodies
-                if 'requestBody' in operation.keys():
+                if "requestBody" in operation.keys():
                     # TODO: Support multiple content types if one of them is JSON
-                    if len(operation['requestBody']['content']) > 1:
-                        if 'application/json' not in operation['responses'][status_code]['content']:
-                            raise UnsupportedSchemaError(f"There are too many request body content types for"
-                                                                f" the operation: {op_id}")
-                    if 'application/json' in operation['requestBody']['content'].keys():
-                        operation_schemas[op_id]['requestBody'] = \
-                            operation['requestBody']['content']['application/json']['schema']
-                    elif 'application/octet-stream' in operation['requestBody']['content'].keys():
-                        operation_schemas[op_id]['requestBody'] = \
-                            operation['requestBody']['content']['application/octet-stream']['schema']
+                    if len(operation["requestBody"]["content"]) > 1:
+                        if (
+                            "application/json"
+                            not in operation["responses"][status_code]["content"]
+                        ):
+                            raise UnsupportedSchemaError(
+                                f"There are too many request body content types for"
+                                f" the operation: {op_id}"
+                            )
+                    if "application/json" in operation["requestBody"]["content"].keys():
+                        operation_schemas[op_id]["requestBody"] = operation[
+                            "requestBody"
+                        ]["content"]["application/json"]["schema"]
+                    elif (
+                        "application/octet-stream"
+                        in operation["requestBody"]["content"].keys()
+                    ):
+                        operation_schemas[op_id]["requestBody"] = operation[
+                            "requestBody"
+                        ]["content"]["application/octet-stream"]["schema"]
                     else:
-                        raise UnsupportedSchemaError(f"request body content type: "
-                                                    f"{list(operation['requestBody']['content'].keys())[0]}"
-                                                    f" unsupported for the operation: {op_id}")
+                        raise UnsupportedSchemaError(
+                            f"request body content type: "
+                            f"{list(operation['requestBody']['content'].keys())[0]}"
+                            f" unsupported for the operation: {op_id}"
+                        )
 
                 # Parse and Validate Response Bodies
-                operation_schemas[op_id]['responses'] = {}
-                for status_code in operation['responses'].keys():
-                    if 'content' in operation['responses'][status_code].keys():
+                operation_schemas[op_id]["responses"] = {}
+                for status_code in operation["responses"].keys():
+                    if "content" in operation["responses"][status_code].keys():
                         # TODO: Support multiple content types if one of them is JSON
-                        if len(operation['responses'][status_code]['content']) > 1:
-                            if 'application/json' not in operation['responses'][status_code]['content']:
-                                raise UnsupportedSchemaError(f"There are too many response body content types for"
-                                                            f" the operation: {op_id}")
-                        if 'application/json' in operation['responses'][status_code]['content'].keys():
-                            operation_schemas[op_id]['responses'][status_code] = \
-                                operation['responses'][status_code]['content']['application/json']['schema']
-                        elif 'application/octet-stream' in operation['responses'][status_code]['content'].keys():
-                            operation_schemas[op_id]['responses'][status_code] = \
-                                operation['responses'][status_code]['content']['application/octet-stream']['schema']
+                        if len(operation["responses"][status_code]["content"]) > 1:
+                            if (
+                                "application/json"
+                                not in operation["responses"][status_code]["content"]
+                            ):
+                                raise UnsupportedSchemaError(
+                                    f"There are too many response body content types for"
+                                    f" the operation: {op_id}"
+                                )
+                        if (
+                            "application/json"
+                            in operation["responses"][status_code]["content"].keys()
+                        ):
+                            operation_schemas[op_id]["responses"][
+                                status_code
+                            ] = operation["responses"][status_code]["content"][
+                                "application/json"
+                            ][
+                                "schema"
+                            ]
+                        elif (
+                            "application/octet-stream"
+                            in operation["responses"][status_code]["content"].keys()
+                        ):
+                            operation_schemas[op_id]["responses"][
+                                status_code
+                            ] = operation["responses"][status_code]["content"][
+                                "application/octet-stream"
+                            ][
+                                "schema"
+                            ]
                         else:
-                            raise UnsupportedSchemaError(f"response body content type: "
-                                                         f"{list(operation['responses'][status_code]['content'].keys())[0]}"
-                                                         f" unsupported for the operation: {op_id}")
+                            raise UnsupportedSchemaError(
+                                f"response body content type: "
+                                f"{list(operation['responses'][status_code]['content'].keys())[0]}"
+                                f" unsupported for the operation: {op_id}"
+                            )
                     else:
-                        operation_schemas[op_id]['responses'][status_code] = operation['responses'][status_code]
+                        operation_schemas[op_id]["responses"][status_code] = operation[
+                            "responses"
+                        ][status_code]
 
     print("[bold green]--Successfully Validated Spec File--[/bold green]")
     return spec, operation_schemas
