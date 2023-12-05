@@ -20,6 +20,8 @@ def cli():
 )
 @click.option("-ff", "--fail-fast", is_flag=True)
 @click.option("-v", "--verbose", is_flag=True)
+@click.version_option()
+@click.help_option()
 def main(step_file, spec_file, fail_fast, verbose):
     try:
         validate(step_file, spec_file, fail_fast, verbose)

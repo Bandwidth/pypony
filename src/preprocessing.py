@@ -66,6 +66,7 @@ def evaluate(expression: any, steps={}) -> any:
     The only allowed base contexts are "env" and "steps".
     Args:
         expression (str): Object of any type that may contain expression(s)
+        steps (dict): Dictionary of steps
     Raises:
         EnvironmentVariableError:
             if the expression represents an environment variable but it cannot be found

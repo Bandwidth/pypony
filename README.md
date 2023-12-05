@@ -17,6 +17,7 @@ PyPony is a 🪄magical🪄 Python CLI tool for contract testing OpenAPI specifi
 
 ```sh
 cd pypony
+PYPONY_RELEASE_VERSION=0.0.1-local
 pip install .
 ```
 
@@ -28,11 +29,11 @@ pypony -st ./my_steps.yml -sp ./my_spec.yml  -v
 
 ### Arguments
 
-| Argument             | Description |
-|:--------------------:|:------------|
-| '-st', '--step'      | Relative path to step file |
-| '-sp', '--spec'      | Relative path to spec file |
-| '-v', '--verbose'    | Boolean verbose output (default=`False`) |
+|       Argument       | Description                                                          |
+|:--------------------:|:---------------------------------------------------------------------|
+|   '-st', '--step'    | Relative path to step file                                           |
+|   '-sp', '--spec'    | Relative path to spec file                                           |
+|  '-v', '--verbose'   | Boolean verbose output (default=`False`)                             |
 | '-ff', '--fail-fast' | Option to fail fast if an exception is encountered (default=`False`) | # Coming soon!
 
 ## Step File

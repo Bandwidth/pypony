@@ -6,7 +6,6 @@ from jsonschema import validate, ValidationError
 from json_ref_dict import materialize, RefDict
 from openapi_spec_validator import validate_spec
 from openapi_spec_validator.exceptions import OpenAPIValidationError
-from rich import print
 
 from .errors import *
 
