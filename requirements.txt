@@ -1,4 +1,3 @@
--i https://pypi.org/simple
 attrs==23.1.0
 certifi==2023.11.17
 charset-normalizer==3.3.2

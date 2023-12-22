@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  PYPONY_RELEASE_VERSION: 0.0.1-local
+  PYPONY_RELEASE_VERSION: 0.0.0
 
 concurrency:
   group: pypony-${{ github.ref }}
@@ -30,8 +30,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements.dev.txt
+          make install-dependencies
 
       - name: Test
-        run: pytest
+        run: make test
+
+      - name: Install CLI
+        run: make install-cli

@@ -15,15 +15,31 @@ PyPony is a 🪄magical🪄 Python CLI tool for contract testing OpenAPI specifi
 
 ## Install Locally
 
-```sh
-cd pypony
-PYPONY_RELEASE_VERSION=0.0.1-local
-pip install .
+```shell
+make install-dependencies
+make install-cli
+```
+
+## Remove Local Installation
+
+```shell
+make remove-cli
+```
+
+## Test
+
+```shell
+make test
+```
+
+### Generate Coverage Report
+```shell
+make test-coverage
 ```
 
 ## Run
 
-```sh
+```shell
 pypony -st ./my_steps.yml -sp ./my_spec.yml  -v
 ```
 
