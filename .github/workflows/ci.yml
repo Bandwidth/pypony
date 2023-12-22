@@ -3,12 +3,22 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  PYPONY_RELEASE_VERSION: 0.0.1-local
+
+concurrency:
+  group: pypony-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ${{ fromJSON(vars.SWI_GLORG_UBUNTU_2204) }}
     strategy:
       matrix:
-        python-version: [3.9, "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
     steps:
       - uses: actions/checkout@v3
 

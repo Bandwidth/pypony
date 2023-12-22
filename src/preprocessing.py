@@ -8,7 +8,7 @@ from .errors import (
     EvaluationError,
     EnvironmentVariableError,
 )
-from rich import print, inspect
+from rich import print
 
 
 def get_operation_coverage(steps: dict, spec: dict):
@@ -76,8 +76,6 @@ def evaluate(expression: any, steps={}) -> any:
 
     if expression is None:
         return
-
-    inspect(expression, title="EXPRESSION")
 
     # Evaluate each value in a dictionary
     if isinstance(expression, dict):

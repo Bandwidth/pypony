@@ -6,8 +6,6 @@ from rich import print, print_json
 import json
 from typing import Union
 
-from rich import inspect
-
 
 def make_requests(
     steps_data: dict, operation_schemas: dict, fail_fast: bool, verbose: bool
@@ -51,7 +49,6 @@ def make_requests(
             )
 
         response = request.send()
-        inspect(response, title="RESPONSE")
         if verbose:
             if response.body:
                 print("---Response---")
