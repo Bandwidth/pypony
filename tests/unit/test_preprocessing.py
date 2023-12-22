@@ -26,7 +26,7 @@ class TestPreProcessing:
         assert_that(evaluated_empty_expression, is_(None))
 
         evaluated_env_var_expression = evaluate("${{ env.PYPONY_RELEASE_VERSION }}")
-        assert_that(evaluated_env_var_expression, is_("0.0.1-local"))
+        assert_that(evaluated_env_var_expression, is_("0.0.0"))
 
         # TODO: More tests for evaluate()
         # evaluated_steps_expression = evaluate("${{ steps.someStep }}", {})
