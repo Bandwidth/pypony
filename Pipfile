@@ -19,16 +19,15 @@ pygments = ">=2.15.0"
 pyrsistent = ">=0.18.1"
 pyyaml = ">=6.0"
 requests = ">=2.31.0"
-rich = ">=10.12.0"
+rich = ">=12.4.4"
 urllib3 = ">=2.1.0"
-
+coverage = "*"
 
 [dev-packages]
 coverage = ">=7.2.2"
 pytest = ">=7.4.3"
 pytest-mock = "*"
 pyhamcrest = ">=2.0.3"
-rich = ">=12.4.4"
 
 [requires]
 python_version = "3.11"
