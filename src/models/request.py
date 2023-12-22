@@ -34,7 +34,7 @@ class Request:
                 self.auth = self.global_auth
 
     def send(self):
-        if type(self.body) == str:
+        if isinstance(self.body, str):
             r = requests.request(
                 url=self.base_url + self.path,
                 method=self.method,
@@ -45,7 +45,7 @@ class Request:
                 auth=HTTPBasicAuth(self.auth["username"], self.auth["password"]),
             )
             return Response(
-                status_code=r.status_code, headers=dict(r.headers), data=str(r.text)
+                status_code=r.status_code, headers=dict(r.headers), body=str(r.text)
             )
         else:
             r = requests.request(
@@ -57,5 +57,5 @@ class Request:
                 auth=HTTPBasicAuth(self.auth["username"], self.auth["password"]),
             )
             return Response(
-                status_code=r.status_code, headers=dict(r.headers), data=str(r.text)
+                status_code=r.status_code, headers=dict(r.headers), body=str(r.text)
             )

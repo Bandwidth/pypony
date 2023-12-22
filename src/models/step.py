@@ -1,10 +1,9 @@
 from src.models.request import Request
 from src.preprocessing import evaluate
 
-from rich import inspect
-
 
 class Step:
+    """Class for the Step model"""
     def __init__(
         self,
         step: dict,

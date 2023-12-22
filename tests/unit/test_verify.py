@@ -28,8 +28,8 @@ class TestVerify:
 
     def test_verify_response_with_valid_response(self):
         status_code = 200
-        data = {"name": "John Doe", "age": 30}
-        response = Response(status_code, {}, data)
+        body = {"name": "John Doe", "age": 30}
+        response = Response(status_code, {}, body)
         schema = {
             "type": "object",
             "properties": {"name": {"type": "string"}, "age": {"type": "integer"}},

@@ -26,7 +26,7 @@ def verify_response(response: Response, status_code: int, schema: dict):
         )
     else:
         try:
-            validate(instance=response.data, schema=schema)
+            validate(instance=response.body, schema=schema)
         except ValidationError as e:
             print("[bold red]--Response Validation Failed--[/bold red]")
             print(e)

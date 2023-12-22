@@ -4,6 +4,9 @@ from .verify import *
 
 from rich import print, print_json
 import json
+from typing import Union
+
+from rich import inspect
 
 
 def make_requests(
@@ -13,7 +16,7 @@ def make_requests(
     base_url: str = steps_data["base_url"]
 
     # Set global auth if it exists in the step file
-    global_auth: dict = None
+    global_auth: Union[dict, None] = None
     if "auth" in steps_data.keys():
         global_auth: dict = {}
         for key, value in steps_data["auth"].items():
@@ -48,11 +51,12 @@ def make_requests(
             )
 
         response = request.send()
+        inspect(response, title="RESPONSE")
         if verbose:
-            if response.data:
+            if response.body:
                 print("---Response---")
                 print(f"Status Code: {response.status_code}")
-                print_json(response.data)
+                print_json(response.body)
 
         response_type = ""
         if (
@@ -66,7 +70,13 @@ def make_requests(
             ]["type"]
 
         if response_type == "object" or response_type == "array":
-            response.data = json.loads(response.data)
+            try:
+                response.body = json.loads(response.body)
+            except json.decoder.JSONDecodeError as e:
+                print("[bold red]Response Validation Error[/bold red]")
+                raise Exception(
+                    f"Response data is not valid JSON: {e}"
+                ) from e
 
         verify_response(response, s["status_code"], response_schema)
         if verbose:
