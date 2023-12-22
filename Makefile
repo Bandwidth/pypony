@@ -2,6 +2,10 @@ install-dependencies:
 	pip install -r requirements.txt
 	pip install -r requirements.dev.txt
 
+uninstall-dependencies:
+	pip uninstall -y -r requirements.txt
+	pip uninstall -y -r requirements.dev.txt
+
 install-cli:
 	pip install -e .
 
