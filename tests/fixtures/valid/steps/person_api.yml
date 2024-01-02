@@ -8,12 +8,14 @@ steps:
     headers:
       Content-Type: application/json
     body:
-      name: John Doe
+      name:
+        first: John
+        last: Doe
       age: 42
     auth:
       username: some_user
       password: some_password
-    status_code: 200
+    status_code: 201
 
   - name: fetchPersonInfoSuccessful
     operation_id: getPerson

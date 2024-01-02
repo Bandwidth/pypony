@@ -85,7 +85,7 @@ class TestParsing:
         """Ensure an OpenAPI document is parsed correctly
         OpenAPIValidationError comes from openapi_spec_validator library
         """
-        with pytest.raises(OpenAPIValidationError):
+        with pytest.raises(OpenAPISpecValidatorError):
             spec, operation_schemas = parse_spec_file(
                 self.test_steps, self.invalid_spec_missing_openapi_property_file_path
             )

@@ -32,4 +32,4 @@ jobs:
         env:
           PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
+          PYPONY_RELEASE_VERSION: ${{ env.RELEASE_VERSION }}

@@ -50,7 +50,9 @@ additionalProperties: false
       headers:
         type: object
       body:
-        type: object
+        oneOf:
+          - type: object
+          - type: array
       raw_body:
         type: string
       params:

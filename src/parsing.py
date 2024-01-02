@@ -4,9 +4,8 @@ import json
 import yaml
 from jsonschema import validate, ValidationError
 from json_ref_dict import materialize, RefDict
-from openapi_spec_validator import validate_spec
-from openapi_spec_validator.exceptions import OpenAPIValidationError
-from rich import print
+from openapi_spec_validator import validate as validate_spec
+from openapi_spec_validator.exceptions import OpenAPISpecValidatorError
 
 from .errors import *
 
@@ -60,29 +59,33 @@ def parse_spec_file(steps: dict, spec_file_path: str) -> tuple:
 
     Returns:
         tuple: Returns a tuple containing two dictionaries - the parsed API spec and
-            a dictionary with all of the openapi operations for quick reference
+            a dictionary with all the openapi operations for quick reference
     """
     try:
         spec = materialize(RefDict(spec_file_path))
         validate_spec(spec)
-    except OpenAPIValidationError as e:
-        raise OpenAPIValidationError(
+    except OpenAPISpecValidatorError as e:
+        raise OpenAPISpecValidatorError(
+            f"API Spec file has the following syntax errors: {e} "
+        ) from e
+    except ValidationError as e:
+        raise ValidationError(
             f"API Spec file has the following syntax errors: {e.message} "
         ) from e
     except FileNotFoundError as e:
         raise FileNotFoundError(f"API Spec file {spec_file_path} not found") from e
 
     # Get list of steps operationIds
-    steps_opertaion_id_list = []
+    steps_operation_id_list = []
     for step in steps["steps"]:
-        steps_opertaion_id_list.append(step["operation_id"])
+        steps_operation_id_list.append(step["operation_id"])
 
     # Create operation schemas dict for easier parsing
     operation_schemas: dict = {}
     for path in spec["paths"]:
         for method in spec["paths"][path]:
             op_id = spec["paths"][path][method]["operationId"]
-            if op_id in steps_opertaion_id_list:
+            if op_id in steps_operation_id_list:
                 operation = spec["paths"][path][method]
                 operation_schemas[op_id] = {}
 

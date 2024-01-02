@@ -15,24 +15,41 @@ PyPony is a 🪄magical🪄 Python CLI tool for contract testing OpenAPI specifi
 
 ## Install Locally
 
-```sh
-cd pypony
-pip install .
+```shell
+make install-dependencies
+make install-cli
+```
+
+## Remove Local Installation
+
+```shell
+make remove-cli
+```
+
+## Test
+
+```shell
+make test
+```
+
+### Generate Coverage Report
+```shell
+make test-coverage
 ```
 
 ## Run
 
-```sh
+```shell
 pypony -st ./my_steps.yml -sp ./my_spec.yml  -v
 ```
 
 ### Arguments
 
-| Argument             | Description |
-|:--------------------:|:------------|
-| '-st', '--step'      | Relative path to step file |
-| '-sp', '--spec'      | Relative path to spec file |
-| '-v', '--verbose'    | Boolean verbose output (default=`False`) |
+|       Argument       | Description                                                          |
+|:--------------------:|:---------------------------------------------------------------------|
+|   '-st', '--step'    | Relative path to step file                                           |
+|   '-sp', '--spec'    | Relative path to spec file                                           |
+|  '-v', '--verbose'   | Boolean verbose output (default=`False`)                             |
 | '-ff', '--fail-fast' | Option to fail fast if an exception is encountered (default=`False`) | # Coming soon!
 
 ## Step File

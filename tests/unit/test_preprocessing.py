@@ -21,5 +21,12 @@ class TestPreProcessing:
     def test_check_operation_coverage(self):
         check_operation_coverage(self.steps, self.spec)
 
-    # def test_evaluate(expression: any, steps={}):
-    #     return
+    def test_evaluate_expression(self):
+        evaluated_empty_expression = evaluate(None)
+        assert_that(evaluated_empty_expression, is_(None))
+
+        evaluated_env_var_expression = evaluate("${{ env.PYPONY_RELEASE_VERSION }}")
+        assert_that(evaluated_env_var_expression, is_("0.0.0"))
+
+        # TODO: More tests for evaluate()
+        # evaluated_steps_expression = evaluate("${{ steps.someStep }}", {})
