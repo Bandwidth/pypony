@@ -1,6 +1,6 @@
 # PyPony
 
-![PyPony Logo](https://github.com/Bandwidth/pypony/blob/main/pypony.png)
+![PyPony Logo](https://github.com/Bandwidth/pypony/blob/main/PyPony.png)
 
 PyPony is a 🪄magical🪄 Python CLI tool for contract testing OpenAPI specifications against the live APIs that they define.
 
