@@ -30,6 +30,5 @@ jobs:
       - name: Deploy to PYPI
         uses: ./.github/actions/deploy
         env:
-          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          PYPI_API_KEY: ${{ secrets.PYPI_API_KEY }}
           PYPONY_RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
