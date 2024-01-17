@@ -6,6 +6,10 @@ PyPony is a 🪄magical🪄 Python CLI tool for contract testing OpenAPI specifi
 
 [![Unit Tests](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml/badge.svg)](https://github.com/Bandwidth/pypony/actions/workflows/ci.yml)
 
+```sh
+pip install pypony
+```
+
 ## Supported OAS Features
 
 * JSON or YAML
