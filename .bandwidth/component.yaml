@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  schemaVersion: v1.0.0
+  name: pypony
+  description: A magical python CLI tool to contract test an API against its OAS
+  annotations:
+    github.com/project-slug: Bandwidth/pypony
+    organization: BW
+    costCenter: Development - Software Infra
+spec:
+  type: Library
+  owner: github/band-swi
+  lifecycle: Available
