@@ -6,6 +6,7 @@ metadata:
   description: A magical python CLI tool to contract test an API against its OAS
   annotations:
     github.com/project-slug: Bandwidth/pypony
+    bandwidth.com/languages: Python
     organization: BW
     costCenter: Development - Software Infra
 spec:
